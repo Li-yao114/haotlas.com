@@ -7,7 +7,9 @@ export const THEMES = {
 };
 
 export function getSystemTheme() {
-  if (typeof window === "undefined") return THEMES.LIGHT;
+  if (typeof window === "undefined" || !window.matchMedia) {
+    return THEMES.LIGHT;
+  }
   return window.matchMedia("(prefers-color-scheme: dark)").matches
     ? THEMES.DARK
     : THEMES.LIGHT;
@@ -15,20 +17,30 @@ export function getSystemTheme() {
 
 export function getInitialTheme() {
   if (typeof window === "undefined") return THEMES.LIGHT;
-  const saved = window.localStorage.getItem(THEME_KEY);
-  if (saved === THEMES.LIGHT || saved === THEMES.DARK || saved === THEMES.SYSTEM) {
-    return saved;
+
+  try {
+    const saved = window.localStorage.getItem(THEME_KEY);
+    if (saved && Object.values(THEMES).includes(saved)) {
+      return saved;
+    }
+  } catch {
+    // ignore
   }
-  return THEMES.SYSTEM;
+
+  return THEMES.SYSTEM; // 默认跟随系统
 }
 
-export function applyTheme(theme) {
+export function applyTheme(mode) {
   const root = document.documentElement;
-  const resolved = theme === THEMES.SYSTEM ? getSystemTheme() : theme;
+  const resolved = mode === THEMES.SYSTEM ? getSystemTheme() : mode;
   root.setAttribute("data-theme", resolved);
 }
 
-export function saveTheme(theme) {
+export function saveTheme(mode) {
   if (typeof window === "undefined") return;
-  window.localStorage.setItem(THEME_KEY, theme);
+  try {
+    window.localStorage.setItem(THEME_KEY, mode);
+  } catch {
+    // ignore
+  }
 }

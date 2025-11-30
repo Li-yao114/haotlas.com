@@ -1,52 +1,281 @@
-/* 全局基础 */
+/* 主题变量：通过 html[data-theme] 切换 */
+:root {
+  color-scheme: light dark;
+}
+
+:root[data-theme="light"] {
+  --bg: #f5f5f7;
+  --bg-elevated: #ffffff;
+  --border-subtle: #e5e5ea;
+  --text-main: #111827;
+  --text-secondary: #6b7280;
+  --accent: #007aff;
+  --accent-soft: rgba(0, 122, 255, 0.14);
+}
+
+:root[data-theme="dark"] {
+  --bg: #000000;
+  --bg-elevated: #111111;
+  --border-subtle: #27272a;
+  --text-main: #f9fafb;
+  --text-secondary: #9ca3af;
+  --accent: #0a84ff;
+  --accent-soft: rgba(10, 132, 255, 0.25);
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-html, body, #root {
+html,
+body,
+#root {
   margin: 0;
   padding: 0;
   height: 100%;
 }
 
 body {
-  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui,
+    sans-serif;
+  background-color: var(--bg);
+  color: var(--text-main);
+  -webkit-font-smoothing: antialiased;
 }
 
-/* 通过 data-theme 控制主题：light / dark */
-:root[data-theme="light"] {
-  --bg: #f5f5f7;
-  --bg-elevated: #ffffff;
-  --border-subtle: #d2d2d7;
-  --text-main: #1d1d1f;
-  --text-secondary: #6e6e73;
-  --accent: #007aff; /* iOS 蓝 */
-}
+/* 整体容器 */
 
-:root[data-theme="dark"] {
-  --bg: #000000;
-  --bg-elevated: #1c1c1e;
-  --border-subtle: #2c2c2e;
-  --text-main: #f5f5f7;
-  --text-secondary: #a1a1a7;
-  --accent: #0a84ff;
-}
-
-body {
+.app-root {
+  min-height: 100vh;
   background-color: var(--bg);
   color: var(--text-main);
 }
 
-/* 一些通用卡片样式，模仿 iPad 设置页风格 */
-.card {
+.site-shell {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 20px 16px 40px;
+}
+
+/* 顶部：左 logo + 中间导航 + 右侧主题切换 */
+
+.site-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+}
+
+.site-logo {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.site-logo-dot {
+  width: 24px;
+  height: 24px;
+  border-radius: 8px;
+  background: linear-gradient(135deg, #ff375f, #0a84ff);
+}
+
+.site-logo-text {
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  font-size: 0.95rem;
+}
+
+.site-nav {
+  display: flex;
+  gap: 12px;
+  font-size: 0.9rem;
+}
+
+.site-nav a {
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: 4px 8px;
+  border-radius: 999px;
+}
+
+.site-nav a:hover {
+  color: var(--text-main);
+  background-color: rgba(0, 0, 0, 0.04);
+}
+
+/* 首屏 hero：头像居中 */
+
+.hero {
+  text-align: center;
+  padding: 40px 12px 32px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+
+.hero-avatar {
+  width: 96px;
+  height: 96px;
+  border-radius: 999px;
+  background: radial-gradient(circle at 30% 20%, #ff9ff3, #3742fa);
+  background-size: cover;
+  background-position: center;
+  box-shadow: 0 14px 40px rgba(0, 0, 0, 0.3);
+}
+
+.hero-title {
+  margin: 0;
+  font-size: clamp(2rem, 4vw, 2.6rem);
+  font-weight: 700;
+}
+
+.hero-subtitle {
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.hero-description {
+  max-width: 620px;
+  margin: 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.hero-tags {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+}
+
+.pill {
+  padding: 4px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  font-size: 0.8rem;
+  color: var(--text-secondary);
+}
+
+/* 下方 section 通用样式 */
+
+.section {
+  margin-top: 32px;
+}
+
+.section-title {
+  font-size: 1.15rem;
+  margin-bottom: 12px;
+}
+
+.section-body {
   background-color: var(--bg-elevated);
   border-radius: 20px;
   border: 1px solid var(--border-subtle);
-  padding: 16px 20px;
+  padding: 16px 18px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
 }
 
-.card + .card {
-  margin-top: 12px;
+/* 卡片列表 */
+
+.cards-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.card {
+  background-color: var(--bg-elevated);
+  border-radius: 18px;
+  border: 1px solid var(--border-subtle);
+  padding: 14px 16px;
+}
+
+.card h3 {
+  margin: 0 0 6px;
+  font-size: 0.98rem;
+}
+
+.card p {
+  margin: 0;
+  font-size: 0.86rem;
+  color: var(--text-secondary);
+}
+
+/* 主题切换控件 */
+
+.theme-toggle {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px;
+  border-radius: 999px;
+  border: 1px solid var(--border-subtle);
+  background-color: var(--bg-elevated);
+}
+
+.theme-toggle-btn {
+  border: none;
+  background: transparent;
+  border-radius: 999px;
+  padding: 4px 8px;
+  min-width: 34px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--text-secondary);
+  cursor: pointer;
+  transition: background 0.18s ease, color 0.18s ease, transform 0.08s ease;
+}
+
+.theme-toggle-btn.is-active {
+  background-color: var(--accent-soft);
+  color: var(--accent);
+}
+
+.theme-toggle-btn:active {
+  transform: scale(0.96);
+}
+
+.theme-icon {
+  font-size: 14px;
+}
+
+.theme-text {
+  display: inline-block;
+}
+
+/* 响应式：手机 */
+
+@media (max-width: 768px) {
+  .site-shell {
+    padding-top: 14px;
+  }
+
+  .site-header {
+    gap: 8px;
+  }
+
+  .site-nav {
+    display: none; /* 小屏先隐藏导航，只留 logo + 主题 */
+  }
+
+  .hero {
+    padding-top: 28px;
+  }
+
+  .cards-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .theme-text {
+    display: none; /* 手机只显示图标 */
+  }
 }

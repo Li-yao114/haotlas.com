@@ -1,16 +1,20 @@
 import React from "react";
 import "./index.css";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
-import ShellLayout from "./components/layout/ShellLayout";
+import Header from "./components/layout/Header";
 import Home from "./pages/Home";
 
 function App() {
   return (
     <ThemeProvider>
-      <ShellLayout>
-        {/* 以后这里换成路由 <Router> */}
-        <Home />
-      </ShellLayout>
+      <div className="app-root">
+        <div className="site-shell">
+          <Header />
+          <main>
+            <Home />
+          </main>
+        </div>
+      </div>
     </ThemeProvider>
   );
 }

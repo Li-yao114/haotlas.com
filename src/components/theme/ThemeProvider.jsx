@@ -1,5 +1,11 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
-import { THEMES, getInitialTheme, applyTheme, saveTheme, getSystemTheme } from "../../lib/theme";
+import {
+  THEMES,
+  getInitialTheme,
+  getSystemTheme,
+  applyTheme,
+  saveTheme,
+} from "../../lib/theme";
 
 const ThemeContext = createContext({
   theme: THEMES.SYSTEM,
@@ -9,25 +15,25 @@ const ThemeContext = createContext({
 
 export function ThemeProvider({ children }) {
   const [theme, setThemeState] = useState(getInitialTheme);
-  const [resolvedTheme, setResolvedTheme] = useState(THEMES.LIGHT);
+  const [resolvedTheme, setResolvedTheme] = useState(() =>
+    theme === THEMES.SYSTEM ? getSystemTheme() : theme
+  );
 
   useEffect(() => {
-    const sys = getInitialTheme() === THEMES.SYSTEM ? getSystemTheme() : null;
-    const effective = theme === THEMES.SYSTEM ? (sys || THEMES.LIGHT) : theme;
-
     applyTheme(theme);
-    setResolvedTheme(effective);
+    const resolved = theme === THEMES.SYSTEM ? getSystemTheme() : theme;
+    setResolvedTheme(resolved);
     saveTheme(theme);
 
-    // 监听系统主题变化（当 theme === system 时生效）
     if (theme === THEMES.SYSTEM && typeof window !== "undefined") {
       const mq = window.matchMedia("(prefers-color-scheme: dark)");
-      const listener = () => {
-        applyTheme(THEMES.SYSTEM);
-        setResolvedTheme(getSystemTheme());
+      const handler = () => {
+        const next = getSystemTheme();
+        document.documentElement.setAttribute("data-theme", next);
+        setResolvedTheme(next);
       };
-      mq.addEventListener("change", listener);
-      return () => mq.removeEventListener("change", listener);
+      mq.addEventListener("change", handler);
+      return () => mq.removeEventListener("change", handler);
     }
   }, [theme]);
 
