@@ -1,0 +1,13 @@
+{
+  "files": {
+    "main.css": "/haotlas.com/static/css/main.278b31b2.css",
+    "main.js": "/haotlas.com/static/js/main.349294e5.js",
+    "index.html": "/haotlas.com/index.html",
+    "main.278b31b2.css.map": "/haotlas.com/static/css/main.278b31b2.css.map",
+    "main.349294e5.js.map": "/haotlas.com/static/js/main.349294e5.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.278b31b2.css",
+    "static/js/main.349294e5.js"
+  ]
+}
