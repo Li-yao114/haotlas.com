@@ -4,19 +4,11 @@ export default function Landing({ onEnter }) {
   return (
     <div className="landing-root">
       <div className="landing-inner">
-        {/* 顶部：只保留左上 logo，不要主题切换 */}
-        <div className="landing-topbar">
-          <div className="landing-logo">
-            <div className="landing-logo-mark">🎈</div>
-            <span className="landing-logo-text">Haotlas</span>
-          </div>
-        </div>
 
         {/* 中间内容 */}
         <div className="landing-center">
-          <div className="landing-badge">WELCOME</div>
 
-          {/* 头像 + 标题一行，类似养鸡场 */}
+          {/* 头像 + 标题一行*/}
           <div className="landing-heading">
             <div className="landing-avatar" />
             <div className="landing-heading-text">
@@ -26,10 +18,6 @@ export default function Landing({ onEnter }) {
               </div>
             </div>
           </div>
-
-          <button type="button" className="landing-cta" onClick={onEnter}>
-            进入站点
-          </button>
         </div>
 
         {/* 底部箭头 */}

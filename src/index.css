@@ -580,15 +580,12 @@ a:hover {
 .landing-avatar {
   width: 64px;
   height: 64px;
-
   border-radius: 18px;
-
-  background: url("/avatar.jpg") center/cover no-repeat;
+  background: url("./assets/avatar.jpg") center/cover no-repeat;
 
   box-shadow: 0 14px 26px rgba(15, 23, 42, 0.32);
   border: 1px solid rgba(148, 163, 184, 0.45);
 }
-
 
 .landing-heading-text {
   display: flex;
