@@ -16,24 +16,30 @@ export function getSystemTheme() {
 }
 
 export function getInitialTheme() {
-  if (typeof window === "undefined") return THEMES.LIGHT;
-
+  if (typeof window === "undefined") {
+    return THEMES.SYSTEM;
+  }
   try {
     const saved = window.localStorage.getItem(THEME_KEY);
-    if (saved && Object.values(THEMES).includes(saved)) {
+    if (
+      saved === THEMES.LIGHT ||
+      saved === THEMES.DARK ||
+      saved === THEMES.SYSTEM
+    ) {
       return saved;
     }
   } catch {
     // ignore
   }
-
-  return THEMES.SYSTEM; // 默认跟随系统
+  return THEMES.SYSTEM;
 }
 
 export function applyTheme(mode) {
   const root = document.documentElement;
   const resolved = mode === THEMES.SYSTEM ? getSystemTheme() : mode;
+
   root.setAttribute("data-theme", resolved);
+  root.style.colorScheme = resolved === THEMES.DARK ? "dark" : "light";
 }
 
 export function saveTheme(mode) {
