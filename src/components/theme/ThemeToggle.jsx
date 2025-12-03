@@ -4,7 +4,6 @@ import { useTheme, THEMES } from "./ThemeProvider";
 const OPTIONS = [
   { value: THEMES.LIGHT, label: "Light", iconClass: "light" },
   { value: THEMES.DARK, label: "Dark", iconClass: "dark" },
-  { value: THEMES.SYSTEM, label: "System", iconClass: "system" },
 ];
 
 export default function ThemeToggle() {
@@ -14,14 +13,10 @@ export default function ThemeToggle() {
 
   const currentMode = theme === THEMES.SYSTEM ? resolvedTheme : theme;
 
-  // 点击外部时收起菜单
   React.useEffect(() => {
     if (!open) return;
     function handleClick(e) {
-      if (
-        containerRef.current &&
-        !containerRef.current.contains(e.target)
-      ) {
+      if (containerRef.current && !containerRef.current.contains(e.target)) {
         setOpen(false);
       }
     }
@@ -38,9 +33,7 @@ export default function ThemeToggle() {
         aria-label="切换主题"
       >
         <span
-          className={
-            "theme-trigger-icon theme-trigger-icon-" + currentMode
-          }
+          className={"theme-trigger-icon theme-trigger-icon-" + currentMode}
           aria-hidden="true"
         />
       </button>
@@ -63,9 +56,7 @@ export default function ThemeToggle() {
                   {active ? "●" : "○"}
                 </span>
                 <span
-                  className={
-                    "theme-option-icon theme-option-" + opt.iconClass
-                  }
+                  className={"theme-option-icon theme-option-" + opt.iconClass}
                   aria-hidden="true"
                 />
                 <span className="theme-option-label">{opt.label}</span>

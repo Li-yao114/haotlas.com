@@ -1,14 +1,32 @@
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function Landing({ onEnter }) {
+  useEffect(() => {
+    const handleScrollOrTouch = (e) => {
+      onEnter();
+      e.preventDefault();
+    };
+
+    window.addEventListener("wheel", handleScrollOrTouch);
+    window.addEventListener("touchmove", handleScrollOrTouch);
+    return () => {
+      window.removeEventListener("wheel", handleScrollOrTouch);
+      window.removeEventListener("touchmove", handleScrollOrTouch);
+    };
+  }, [onEnter]);
+
   return (
     <div className="landing-root">
       <div className="landing-inner">
+        <div className="landing-topbar">
+          <div className="landing-logo">
+            <div className="landing-logo-mark">🎈</div>
+            <span className="landing-logo-text">Haotlas</span>
+          </div>
+        </div>
 
         {/* 中间内容 */}
         <div className="landing-center">
-
-          {/* 头像 + 标题一行*/}
           <div className="landing-heading">
             <div className="landing-avatar" />
             <div className="landing-heading-text">
