@@ -1,4 +1,3 @@
-// src/App.jsx
 import React, { useState } from "react";
 import "./index.css";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
@@ -8,6 +7,11 @@ import Writing from "./pages/Writing";
 import Photography from "./pages/Photography";
 import About from "./pages/About";
 import Landing from "./pages/Landing";
+import "./styles/base.css";
+import "./styles/layout.css";
+import "./styles/typography.css";
+import "./styles/theme.css";
+import "./styles/transitions.css";
 
 const PAGES = {
   HOME: "home",
@@ -18,8 +22,17 @@ const PAGES = {
 
 function App() {
   const [page, setPage] = useState(PAGES.HOME);
-  // 是否已经“进站”
-  const [entered, setEntered] = useState(false);
+  const [entered, setEntered] = useState(false); // 是否已经进站
+  const [isTransitioning, setIsTransitioning] = useState(false);
+
+  const changePage = (next) => {
+    if (next === page) return;
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setPage(next);
+      setIsTransitioning(false);
+    }, 260); // 和 CSS 动画时间对齐
+  };
 
   const renderPage = () => {
     switch (page) {
@@ -38,24 +51,27 @@ function App() {
   return (
     <ThemeProvider>
       {entered ? (
-        // 进入站点之后的布局
         <div className="app-root">
           <div className="site-shell">
             <Header
               currentPage={page}
-              onChangePage={setPage}
+              onChangePage={changePage}
               onBackLanding={() => setEntered(false)}
             />
             <main className="site-main">{renderPage()}</main>
           </div>
+
+          {isTransitioning && (
+            <div className="page-transition-overlay">
+              <div className="page-transition-spinner" />
+            </div>
+          )}
         </div>
       ) : (
-        // 进站页：不再套 app-root，直接全屏
         <Landing onEnter={() => setEntered(true)} />
       )}
     </ThemeProvider>
-  );  
+  );
 }
 
 export default App;
-export { PAGES };

@@ -1,95 +1,223 @@
-import React, { useState } from "react";
+// src/pages/Photography.jsx
+import React, { useEffect, useState, useRef } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import {
+  loadPhotographyIndex,
+  loadMarkdown,
+} from "../lib/content";
+import PhotoMap from "../components/PhotoMap";
 
-const PHOTO_POSTS = [
-  {
-    id: "street-sample",
-    section: "PHOTOGRAPHY",
-    title: "街拍示例 · 夜色",
-    description: "用 A7M4 和 24-70 GM2 拍的一组夜景街拍示例。",
-    date: "2024-01-02",
-    content: `
-> 下面这张是示例，你可以把自己的原图放在 \`public/photos\` 目录里。
+// 轮播
+function PhotoCarousel({ photos, activeSlug, onSelect }) {
+  const stripRef = useRef(null);
 
-![街拍示例](/photos/street-1.jpg)
+  useEffect(() => {
+    if (!stripRef.current || !activeSlug) return;
+    const index = photos.findIndex((p) => p.slug === activeSlug);
+    if (index === -1) return;
+    const node = stripRef.current.children[index];
+    if (!node) return;
+    node.scrollIntoView({ behavior: "smooth", inline: "center", block: "nearest" });
+  }, [activeSlug, photos]);
 
-## 拍摄记录
+  const scrollBy = (delta) => {
+    if (!stripRef.current) return;
+    stripRef.current.scrollBy({ left: delta, behavior: "smooth" });
+  };
 
-- 机身：Sony A7M4
-- 镜头：24–70 GM2
-- 光圈：F2.8
-- 快门：1/160s
-- ISO：3200
+  return (
+    <div className="photo-carousel">
+      <button
+        type="button"
+        className="photo-nav photo-nav-prev"
+        onClick={() => scrollBy(-320)}
+      >
+        ‹
+      </button>
 
-也可以在这里写一些拍摄思路、参数记录或者后期笔记。
-`,
-  },
-];
+      <div className="photo-strip" ref={stripRef}>
+        {photos.map((p) => (
+          <div
+            key={p.slug}
+            className={
+              "photo-item" +
+              (p.slug === activeSlug ? " photo-item-active" : "")
+            }
+            onClick={() => onSelect(p)}
+          >
+            <img src={p.cover} alt={p.title} />
+          </div>
+        ))}
+      </div>
+
+      <button
+        type="button"
+        className="photo-nav photo-nav-next"
+        onClick={() => scrollBy(320)}
+      >
+        ›
+      </button>
+    </div>
+  );
+}
+
+// 放大弹窗
+function Lightbox({ photo, onClose }) {
+  if (!photo) return null;
+  return (
+    <div className="lightbox" onClick={onClose}>
+      <img
+        src={photo.cover}
+        alt={photo.title}
+        onClick={(e) => e.stopPropagation()}
+      />
+    </div>
+  );
+}
 
 export default function Photography() {
-  const [currentId, setCurrentId] = useState(
-    PHOTO_POSTS.length ? PHOTO_POSTS[0].id : null
-  );
+  const [posts, setPosts] = useState([]);
+  const [current, setCurrent] = useState(null);
+  const [body, setBody] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [loadingBody, setLoadingBody] = useState(false);
+  const [lightboxPhoto, setLightboxPhoto] = useState(null);
 
-  const current =
-    PHOTO_POSTS.find((p) => p.id === currentId) || PHOTO_POSTS[0];
+  // 加载索引
+  useEffect(() => {
+    async function init() {
+      try {
+        setLoading(true);
+        const index = await loadPhotographyIndex();
 
-  if (!current) {
-    return (
-      <div style={{ padding: 24 }}>
-        还没有摄影作品，可以在 PHOTO_POSTS 中添加。
-      </div>
-    );
+        // 按日期排序：旧 -> 新
+        index.sort((a, b) => new Date(a.date) - new Date(b.date));
+
+        setPosts(index);
+        if (index.length) {
+          setCurrent(index[index.length - 1]); // 默认选最新一组
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    init();
+  }, []);
+
+  // 加载当前作品正文（md）
+  useEffect(() => {
+    if (!current) {
+      setBody("");
+      return;
+    }
+
+    async function loadBody() {
+      try {
+        setLoadingBody(true);
+        const { body } = await loadMarkdown(current.file);
+        setBody(body);
+      } catch (e) {
+        console.error(e);
+        setBody("加载作品介绍失败，请稍后再试。");
+      } finally {
+        setLoadingBody(false);
+      }
+    }
+
+    loadBody();
+  }, [current]);
+
+  if (loading) {
+    return <div style={{ padding: 24 }}>正在加载摄影作品...</div>;
+  }
+
+  if (!posts.length) {
+    return <div style={{ padding: 24 }}>还没有摄影作品。</div>;
   }
 
   return (
-    <div className="doc-layout">
-      {/* 左侧：作品列表 */}
-      <aside className="doc-sidebar">
-        <div className="doc-sidebar-title">摄影</div>
-        <ul className="doc-list">
-          {PHOTO_POSTS.map((post) => (
-            <li key={post.id}>
-              <button
-                type="button"
-                className={
-                  "doc-list-item" +
-                  (post.id === current.id ? " doc-list-item-active" : "")
-                }
-                onClick={() => setCurrentId(post.id)}
-              >
-                <div className="doc-list-title">{post.title}</div>
-                {post.description && (
-                  <div className="doc-list-desc">{post.description}</div>
-                )}
-              </button>
-            </li>
-          ))}
-        </ul>
-      </aside>
+    <>
+      <div className="doc-layout">
+        {/* 左侧列表 */}
+        <aside className="doc-sidebar">
+          <div className="doc-sidebar-title">摄影</div>
+          <ul className="doc-list">
+            {posts.map((p) => (
+              <li key={p.slug}>
+                <button
+                  type="button"
+                  className={
+                    "doc-list-item" +
+                    (p.slug === current?.slug ? " doc-list-item-active" : "")
+                  }
+                  onClick={() => setCurrent(p)}
+                >
+                  <div className="doc-list-title">{p.title}</div>
+                  {p.summary && (
+                    <div className="doc-list-desc">{p.summary}</div>
+                  )}
+                </button>
+              </li>
+            ))}
+          </ul>
+        </aside>
 
-      {/* 中间：大图 + 文案 */}
-      <article className="doc-main">
-        {current.section && <div className="doc-tag">{current.section}</div>}
-        <h1 className="doc-title">{current.title}</h1>
-        {current.date && <div className="doc-meta">{current.date}</div>}
-        <div className="markdown-body">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>
-            {current.content}
-          </ReactMarkdown>
-        </div>
-      </article>
+        {/* 中间：轮播 + 文案 */}
+        <article className="doc-main">
+          <div className="doc-tag">PHOTOGRAPHY</div>
+          <h1 className="doc-title">{current.title}</h1>
+          <div className="doc-meta">{current.date}</div>
 
-      {/* 右侧：备注区，可以写拍摄参数等 */}
-      <aside className="doc-right">
-        <div className="doc-right-card">
-          <div className="doc-right-title">拍摄信息</div>
-          <div className="doc-right-content">
-            <p>{current.description}</p>
+          <PhotoCarousel
+            photos={posts}
+            activeSlug={current.slug}
+            onSelect={(p) => {
+              setCurrent(p);
+              setLightboxPhoto(p); // 点击时顺便放大
+            }}
+          />
+
+          {loadingBody ? (
+            <div style={{ marginTop: 12 }}>正在加载作品介绍...</div>
+          ) : (
+            <div className="markdown-body" style={{ marginTop: 16 }}>
+              <ReactMarkdown remarkPlugins={[remarkGfm]}>
+                {body}
+              </ReactMarkdown>
+            </div>
+          )}
+        </article>
+
+        {/* 右侧：地图占位 */}
+        <aside className="doc-right">
+          <div className="doc-right-card">
+            <div className="doc-right-title">拍摄地点</div>
+            <div className="doc-right-content">
+              {current.lat && current.lng ? (
+                <p>
+                  坐标：{current.lat}, {current.lng}
+                  <br />
+                  地图标记见下方。
+                </p>
+              ) : (
+                <p>这组照片还没有记录坐标。</p>
+              )}
+            </div>
           </div>
-        </div>
-      </aside>
-    </div>
+          {/* 下面是真正的地图 */}
+          <PhotoMap photos={posts} activePhoto={current} />
+        </aside>
+      </div>
+
+      {/* 放大图层 */}
+      <Lightbox
+        photo={lightboxPhoto}
+        onClose={() => setLightboxPhoto(null)}
+      />
+    </>
   );
 }

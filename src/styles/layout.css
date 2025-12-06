@@ -1,0 +1,29 @@
+.app-root {
+    min-height: 100vh;
+    background: radial-gradient(circle at top left, rgba(59, 130, 246, 0.12), transparent 55%),
+      radial-gradient(circle at bottom right, rgba(236, 72, 153, 0.12), transparent 55%);
+  }
+  
+  .site-shell {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 16px 20px 40px;
+  }
+  
+  .doc-layout {
+    display: grid;
+    grid-template-columns: 220px minmax(0, 1fr) 220px;
+    gap: 24px;
+    align-items: flex-start;
+  }
+  
+  .doc-layout-single {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr);
+  }
+  
+  .doc-sidebar {
+    padding-top: 6px;
+    font-size: 13px;
+  }
+  
