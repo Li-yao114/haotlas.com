@@ -1,11 +1,29 @@
+// src/components/PhotoMap.jsx
 import React, { useEffect, useRef } from "react";
 import { loadAmap } from "../lib/amap";
+
+const FALLBACK_CENTER = [104, 35];
+const FALLBACK_ZOOM = 5;
+
+// 把经纬度安全解析成 [lng, lat]
+function parseLngLat(rawLng, rawLat) {
+  if (rawLng == null || rawLat == null) return null;
+
+  const lng =
+    typeof rawLng === "string" ? Number(rawLng.trim()) : Number(rawLng);
+  const lat =
+    typeof rawLat === "string" ? Number(rawLat.trim()) : Number(rawLat);
+
+  if (!Number.isFinite(lng) || !Number.isFinite(lat)) return null;
+  return [lng, lat];
+}
 
 export default function PhotoMap({ photos, activePhoto }) {
   const mapElRef = useRef(null);
   const mapInstanceRef = useRef(null);
   const markersRef = useRef([]);
 
+  // 初始化地图 & 所有点
   useEffect(() => {
     if (!mapElRef.current) return;
     let destroyed = false;
@@ -14,39 +32,60 @@ export default function PhotoMap({ photos, activePhoto }) {
       .then((AMap) => {
         if (destroyed || !mapElRef.current) return;
 
-        const map = new AMap.Map(mapElRef.current, {
-          zoom: 4,
-          center: [104, 35], // 中国大致中心
-          viewMode: "3D",
-        });
+        let map;
+        try {
+          // 默认 2D 底图（不加 mapStyle）
+          map = new AMap.Map(mapElRef.current, {
+            zoom: FALLBACK_ZOOM,
+            center: FALLBACK_CENTER,
+            viewMode: "2D",
+          });
+        } catch (e) {
+          console.error("[PhotoMap] 创建地图失败：", e);
+          return;
+        }
+
         mapInstanceRef.current = map;
+        markersRef.current = [];
 
-        const markers = [];
+        const markerOverlays = [];
 
-        photos
-          .filter((p) => p.lng && p.lat)
-          .forEach((p) => {
+        photos.forEach((p) => {
+          const coord = parseLngLat(p.lng, p.lat);
+          if (!coord) {
+            console.warn(
+              "[PhotoMap] 跳过无效坐标：",
+              p.slug || p.title,
+              p.lng,
+              p.lat
+            );
+            return;
+          }
+
+          try {
             const marker = new AMap.Marker({
-              position: [Number(p.lng), Number(p.lat)],
+              position: coord,
               title: p.title,
             });
-            marker.on("click", () => {
-              // 这里只做地图上的交互，真正切换作品仍由 Photography.jsx 控制
-              // 你可以以后加回调 props 告诉父组件
-            });
-            markers.push({ slug: p.slug, marker });
+
+            markerOverlays.push(marker);
+            markersRef.current.push({ slug: p.slug, marker });
             map.add(marker);
-          });
+          } catch (e) {
+            console.error("[PhotoMap] 创建 marker 失败：", p, e);
+          }
+        });
 
-        markersRef.current = markers;
-
-        if (markers.length) {
-          const bounds = markers.map((m) => m.marker.getPosition());
-          map.setFitView(bounds, false, [40, 40, 40, 40]);
+        if (markerOverlays.length) {
+          try {
+            map.setFitView(markerOverlays, false, [40, 40, 40, 40]);
+          } catch (e) {
+            console.error("[PhotoMap] setFitView 失败：", e);
+          }
         }
       })
-      .catch((e) => {
-        console.error("加载高德地图失败：", e);
+      .catch((err) => {
+        console.error("[PhotoMap] 加载高德失败：", err);
       });
 
     return () => {
@@ -54,37 +93,48 @@ export default function PhotoMap({ photos, activePhoto }) {
       if (mapInstanceRef.current) {
         mapInstanceRef.current.destroy();
         mapInstanceRef.current = null;
-        markersRef.current = [];
       }
+      markersRef.current = [];
     };
   }, [photos]);
 
-  // 当前作品变化时，地图跟着居中 & 高亮
+  // 当前作品变化：地图跟随 + 高亮
   useEffect(() => {
     const map = mapInstanceRef.current;
-    if (!map || !activePhoto || !activePhoto.lng || !activePhoto.lat) return;
+    if (!map || !activePhoto) return;
 
-    const lng = Number(activePhoto.lng);
-    const lat = Number(activePhoto.lat);
+    const coord = parseLngLat(activePhoto.lng, activePhoto.lat);
+    if (!coord) {
+      console.warn("[PhotoMap] 当前作品坐标无效，跳过居中：", activePhoto);
+      return;
+    }
 
-    // 地图居中到当前作品
-    map.setZoomAndCenter(8, [lng, lat]);
+    const [lng, lat] = coord;
 
-    // 简单的“高亮”：把对应 marker 放大一点
+    try {
+      map.setZoomAndCenter(13, [lng, lat]); // 稍微拉近一点
+    } catch (e) {
+      console.error("[PhotoMap] setZoomAndCenter 失败：", e);
+    }
+
     markersRef.current.forEach(({ slug, marker }) => {
-      if (slug === activePhoto.slug) {
-        marker.setzIndex(200);
-        marker.setIcon(
-          new window.AMap.Icon({
-            size: new window.AMap.Size(32, 32),
-            imageSize: new window.AMap.Size(32, 32),
-            image:
-              "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
-          })
-        );
-      } else {
-        marker.setzIndex(100);
-        marker.setIcon(null); // 恢复默认
+      try {
+        if (slug === activePhoto.slug) {
+          marker.setzIndex(200);
+          marker.setIcon(
+            new window.AMap.Icon({
+              size: new window.AMap.Size(32, 32),
+              imageSize: new window.AMap.Size(32, 32),
+              image:
+                "https://webapi.amap.com/theme/v1.3/markers/n/mark_b.png",
+            })
+          );
+        } else {
+          marker.setzIndex(100);
+          marker.setIcon(null);
+        }
+      } catch (e) {
+        console.error("[PhotoMap] 更新 marker 样式失败：", slug, e);
       }
     });
   }, [activePhoto]);

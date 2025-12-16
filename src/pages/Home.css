@@ -1,0 +1,22 @@
+/* 首屏 Home */
+.hero {
+    text-align: center;
+    padding: 40px 16px 32px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.hero-avatar {
+    width: 96px;
+    height: 96px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 20%, #fbbf24, #ec4899);
+    box-shadow: 0 20px 40px rgba(15, 23, 42, 0.3);
+}
+
+.hero-title {
+    font-size: 32px;
+    margin: 0;
+}

@@ -1,0 +1,103 @@
+/* ===== 顶部整条导航栏：打通到两边 ===== */
+
+.site-header {
+  position: sticky;              /* 页面滚动时始终贴在顶部 */
+  top: 0;
+  z-index: 100;
+  background: rgba(248, 250, 252, 0.92);  /* 淡白色，略透明 */
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid rgba(148, 163, 184, 0.25);
+}
+
+.site-header-inner {
+  max-width: 1200px;             /* 和中间内容差不多宽 */
+  margin: 0 auto;
+  padding: 10px 24px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;  /* 左中右三列 */
+  align-items: center;
+  column-gap: 32px;
+}
+
+/* 左侧 Logo：自然就贴在最左列，留 24px 内边距 */
+
+.site-logo {
+  font-size: 18px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #0f172a;
+}
+
+.site-logo-text {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+    "SF Pro Display", "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+}
+
+.site-logo-clickable {
+  cursor: pointer;
+}
+
+/* 中间导航：在中间那列里再居中排布 */
+
+.site-nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.site-nav-item {
+  border: none;
+  background: transparent;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 14px;
+  color: #4b5563;
+  cursor: pointer;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.15s ease;
+}
+
+.site-nav-item:hover {
+  background: rgba(148, 163, 184, 0.18);
+  transform: translateY(-1px);
+}
+
+.site-nav-item-active {
+  background: #0f172a;
+  color: #f9fafb;
+  box-shadow: 0 10px 28px rgba(15, 23, 42, 0.35);
+}
+
+.site-header-inner > :last-child {
+  justify-self: end;
+}
+
+/* 右侧按钮区固定在右边，不被挤压 */
+.site-actions {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 小屏幕适配 */
+@media (max-width: 768px) {
+  .site-header-inner {
+    padding: 8px 12px;
+    column-gap: 16px;
+    grid-template-columns: auto 1fr auto;
+  }
+
+  .site-logo {
+    font-size: 16px;
+  }
+
+  .site-nav {
+    gap: 10px;
+  }
+
+  .site-nav-item {
+    padding: 4px 10px;
+    font-size: 13px;
+  }
+}

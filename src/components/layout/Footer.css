@@ -1,0 +1,20 @@
+.site-footer {
+  padding: 16px 0 24px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.footer-line {
+  max-width: 900px;
+  margin: 0 auto 8px;
+  border-top: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+.footer-text {
+  text-align: center;
+  color: var(--text-secondary);
+}
+
+.footer-rocket {
+  margin: 0 4px;
+}

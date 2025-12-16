@@ -5,6 +5,7 @@ import {
   loadWritingIndex,
   loadMarkdown,
 } from "../lib/content";
+import "./Writing.css";
 
 export default function Writing() {
   const [posts, setPosts] = useState([]);
@@ -20,14 +21,12 @@ export default function Writing() {
         setLoading(true);
         const index = await loadWritingIndex();
 
-        // 按日期排序：旧 -> 新（旧的在上，新文章在下面）
-        index.sort((a, b) => new Date(a.date) - new Date(b.date));
+        index.sort((a, b) => new Date(b.date) - new Date(a.date));
 
         setPosts(index);
 
         if (index.length) {
-          // 默认选最新一篇
-          setCurrent(index[index.length - 1]);
+          setCurrent(index[0]);
         }
       } catch (e) {
         console.error(e);
@@ -121,7 +120,7 @@ export default function Writing() {
         <div className="doc-right-card">
           <div className="doc-right-title">当前文稿</div>
           <div className="doc-right-content">
-            <p>{current.summary || "这篇文稿还没有摘要。"}</p>
+            <p>{current.detail || current.summary ||"这篇文稿还没有摘要。"}</p>
           </div>
         </div>
       </aside>

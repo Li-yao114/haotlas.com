@@ -1,0 +1,263 @@
+/* ========= 三栏布局：左侧列表 | 正文 | 右侧信息 ========= */
+
+.doc-layout {
+  max-width: 1180px;
+  margin: 24px auto 64px;
+  display: grid;
+  /* 左 240px | 中间自适应 | 右 260px，间距比较紧凑 */
+  grid-template-columns: 240px minmax(0, 1fr) 260px;
+  column-gap: 28px;
+  align-items: flex-start;
+}
+
+/* ========= 左侧：文稿列表，类似 Typora 左侧文档栏 ========= */
+
+.doc-sidebar {
+  padding: 8px 12px 32px 0;
+  border-right: 1px solid var(--border-soft);
+  background: transparent;
+}
+
+.doc-sidebar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.doc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+/* 列表按钮本身是扁平的，不再是大卡片 */
+.doc-list-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-main);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.doc-list-item:hover {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+/* 当前文稿：黑色描边 + 微浅底 */
+.doc-list-item-active {
+  border-color: #111827;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.doc-list-title {
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
+}
+
+.doc-list-desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ========= 中间：正文区域 ========= */
+
+.doc-main {
+  background: transparent; /* 不再用白色大卡片，直接贴在页面上 */
+  padding: 4px 32px 48px 32px;
+}
+
+.doc-tag {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.doc-title {
+  font-size: 28px;
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+
+.doc-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 18px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 10px;
+}
+
+/* ========= Markdown 正文 ========= */
+
+.markdown-body {
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-main);
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3 {
+  margin-top: 24px;
+  margin-bottom: 12px;
+  font-weight: 600;
+}
+
+.markdown-body p {
+  margin: 8px 0;
+}
+
+.markdown-body ul,
+.markdown-body ol {
+  padding-left: 22px;
+  margin: 10px 0;
+}
+
+/* 让长单词 / URL 可以断行 */
+.markdown-body {
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+.markdown-body a {
+  color: #2563eb;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+/* ========= 代码块：白底 + 灰边框，类似 Typora ========= */
+
+/* 行内代码 */
+.markdown-body code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas,
+    "Liberation Mono", "Courier New", monospace;
+  font-size: 13px;
+  background: rgba(148, 163, 184, 0.18);
+  border-radius: 3px;
+  padding: 2px 4px;
+}
+
+/* 块级代码：白底 + 灰边框 + 深色文字，可水平滚动 */
+.markdown-body pre {
+  margin: 14px 0;
+  padding: 14px 16px;
+  border-radius: 4px;
+  background: #fbfbfc;
+  border: 1px solid var(--border-soft);
+  box-sizing: border-box;
+
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: pre; /* 不折行，保持缩进 */
+}
+
+.markdown-body pre code {
+  display: block;
+  padding: 0;
+  margin: 0;
+  background: transparent;
+  border-radius: 0;
+  color: #111827;
+  font-size: 13px;
+  line-height: 1.7;
+}
+
+/* 代码块滚动条 */
+.markdown-body pre::-webkit-scrollbar {
+  height: 6px;
+}
+
+.markdown-body pre::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.markdown-body pre::-webkit-scrollbar-thumb {
+  background: rgba(156, 163, 175, 0.9);
+  border-radius: 999px;
+}
+
+/* 图片 */
+.markdown-body img {
+  max-width: 100%;
+  border-radius: 8px;
+  margin: 12px 0;
+  display: block;
+}
+
+/* ========= 右侧：当前文稿信息 ========= */
+
+.doc-right {
+  padding: 4px 0 32px 16px;
+  border-left: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* 右侧小卡片：紧凑一点 */
+.doc-right-card {
+  background: var(--bg-panel);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+}
+
+.doc-right-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.doc-right-content {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.doc-right-current-title {
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.doc-right-current-desc {
+  font-size: 13px;
+  line-height: 1.6;
+  color: rgba(15, 23, 42, 0.72);
+}
+
+/* ========= 小屏幕响应式 ========= */
+
+@media (max-width: 1024px) {
+  .doc-layout {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+    row-gap: 24px;
+  }
+
+  .doc-sidebar {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .doc-main {
+    padding: 0 16px 32px 16px;
+  }
+
+  .doc-right {
+    border-left: none;
+    padding-left: 0;
+  }
+}

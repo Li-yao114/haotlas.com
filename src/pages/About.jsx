@@ -1,4 +1,5 @@
 import React from "react";
+import "./About.css";
 
 export default function About() {
   return (
@@ -6,9 +7,9 @@ export default function About() {
       <article className="doc-main">
         <div className="doc-tag">ABOUT</div>
         <h1 className="doc-title">关于我</h1>
-        <div className="doc-meta">这里以后写一点个人简介、经历和兴趣。</div>
+        <div className="doc-meta">个人简介、经历和兴趣。</div>
         <p className="doc-paragraph">
-           Markdown 的方式写到文稿里或直接在这里写静态内容。
+           111
         </p>
       </article>
     </div>

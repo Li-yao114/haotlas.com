@@ -1,5 +1,3 @@
-// src/lib/content.js
-
 // 读取 JSON 文件
 export async function loadJson(path) {
     const res = await fetch(path);

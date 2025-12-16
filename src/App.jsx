@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./index.css";
 import { ThemeProvider } from "./components/theme/ThemeProvider";
 import Header from "./components/layout/Header";
+import Footer from "./components/layout/Footer";
 import Home from "./pages/Home";
 import Writing from "./pages/Writing";
 import Photography from "./pages/Photography";
@@ -59,6 +60,7 @@ function App() {
               onBackLanding={() => setEntered(false)}
             />
             <main className="site-main">{renderPage()}</main>
+            <Footer />
           </div>
 
           {isTransitioning && (

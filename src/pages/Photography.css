@@ -1,0 +1,315 @@
+/* ========= 三栏布局：左侧列表 | 中间作品 | 右侧信息 ========= */
+
+.doc-layout {
+  max-width: 1180px;
+  margin: 24px auto 64px;
+  display: grid;
+  grid-template-columns: 240px minmax(0, 1fr) 260px;
+  column-gap: 28px;
+  align-items: flex-start;
+}
+
+/* ========= 左侧：摄影作品列表 ========= */
+
+.doc-sidebar {
+  padding: 8px 12px 32px 0;
+  border-right: 1px solid var(--border-soft);
+  background: transparent;
+}
+
+.doc-sidebar-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 10px;
+}
+
+.doc-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.doc-list-item {
+  width: 100%;
+  text-align: left;
+  border: 1px solid transparent;
+  background: transparent;
+  border-radius: 6px;
+  padding: 6px 8px;
+  cursor: pointer;
+  font-size: 13px;
+  color: var(--text-main);
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.doc-list-item:hover {
+  background: rgba(148, 163, 184, 0.08);
+}
+
+.doc-list-item-active {
+  border-color: #111827;
+  background: rgba(15, 23, 42, 0.03);
+}
+
+.doc-list-title {
+  font-size: 13px;
+  font-weight: 500;
+}
+
+.doc-list-desc {
+  margin-top: 2px;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* ========= 中间：标题 + 轮播 + 作品说明 ========= */
+
+.doc-main {
+  background: transparent;
+  padding: 4px 32px 48px 32px;
+}
+
+.doc-tag {
+  font-size: 11px;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+
+.doc-title {
+  font-size: 26px;
+  margin: 0 0 4px;
+  font-weight: 600;
+}
+
+.doc-meta {
+  font-size: 12px;
+  color: var(--text-secondary);
+  margin-bottom: 16px;
+  border-bottom: 1px solid var(--border-soft);
+  padding-bottom: 8px;
+}
+
+/* ========= 轮播：中间大，两侧略小 ========= */
+
+.photo-carousel {
+  position: relative;
+  margin-top: 20px;
+}
+
+.photo-strip {
+  display: flex;
+  gap: 16px;
+  padding: 12px 80px 18px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+}
+
+.photo-strip::-webkit-scrollbar {
+  height: 4px;
+}
+
+.photo-strip::-webkit-scrollbar-thumb {
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.6);
+}
+
+/* 基础图片块 */
+.photo-item {
+  flex: 0 0 auto;
+  scroll-snap-align: center;
+  cursor: pointer;
+  opacity: 0.45;
+  transform: scale(0.8);
+  transition: transform 0.25s ease, box-shadow 0.25s ease, opacity 0.25s ease;
+}
+
+.photo-item img {
+  max-height: 320px;
+  border-radius: 16px;
+  display: block;
+  object-fit: cover;
+}
+
+/* 邻近图片：稍大一点 */
+.photo-item-near {
+  opacity: 0.8;
+  transform: translateY(-4px) scale(0.9);
+}
+
+/* 当前图片：最大 */
+.photo-item-active {
+  opacity: 1;
+  transform: translateY(-10px) scale(1.05);
+  box-shadow: 0 18px 40px rgba(15, 23, 42, 0.38);
+}
+
+/* 左右箭头 */
+.photo-nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 999px;
+  background: rgba(15, 23, 42, 0.6);
+  color: #f9fafb;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  z-index: 2;
+}
+
+.photo-nav-prev {
+  left: 32px;
+}
+
+.photo-nav-next {
+  right: 32px;
+}
+
+.photo-caption {
+  margin-top: 10px;
+  font-size: 13px;
+  color: var(--text-secondary);
+  text-align: center;
+}
+
+/* ========= 放大查看 ========= */
+
+.lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.lightbox img {
+  max-width: 92vw;
+  max-height: 92vh;
+  border-radius: 10px;
+}
+
+/* ========= md 正文（如果有文字说明） ========= */
+
+.markdown-body {
+  margin-top: 24px;
+  font-size: 15px;
+  line-height: 1.9;
+  color: var(--text-main);
+}
+
+.markdown-body ul {
+  padding-left: 1.2rem;
+}
+
+.markdown-body li + li {
+  margin-top: 2px;
+}
+
+/* 代码块在摄影页也保持统一样式 */
+.markdown-body pre {
+  margin: 14px 0;
+  padding: 14px 16px;
+  border-radius: 4px;
+  background: #fbfbfc;
+  border: 1px solid var(--border-soft);
+  overflow-x: auto;
+  white-space: pre;
+}
+
+.markdown-body pre code {
+  display: block;
+  padding: 0;
+  background: transparent;
+  color: #111827;
+  font-size: 13px;
+}
+
+/* ========= 右侧：拍摄信息 + 地图 ========= */
+
+.doc-right {
+  padding: 4px 0 32px 16px;
+  border-left: 1px solid var(--border-soft);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.doc-right-card {
+  background: var(--bg-panel);
+  border-radius: 8px;
+  border: 1px solid var(--border-soft);
+  padding: 10px 12px;
+  box-shadow: 0 1px 2px rgba(15, 23, 42, 0.02);
+}
+
+.doc-right-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.doc-right-content {
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+/* 地图容器 */
+.photo-map-container {
+  margin-top: 4px;
+}
+
+.photo-map-inner {
+  width: 100%;
+  height: 220px;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+/* ========= 小屏幕 ========= */
+
+@media (max-width: 1024px) {
+  .doc-layout {
+    grid-template-columns: minmax(0, 1fr);
+    column-gap: 0;
+    row-gap: 24px;
+  }
+
+  .doc-sidebar {
+    border-right: none;
+    padding-right: 0;
+  }
+
+  .doc-main {
+    padding: 0 16px 32px 16px;
+  }
+
+  .doc-right {
+    border-left: none;
+    padding-left: 0;
+  }
+
+  .photo-strip {
+    padding: 12px 40px 18px;
+  }
+
+  .photo-item img {
+    max-height: 260px;
+  }
+
+  .photo-map-inner {
+    height: 200px;
+  }
+}

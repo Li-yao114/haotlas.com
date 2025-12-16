@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import "./Landing.css";
 
 export default function Landing({ onEnter }) {
   useEffect(() => {
@@ -20,7 +21,6 @@ export default function Landing({ onEnter }) {
       <div className="landing-inner">
         <div className="landing-topbar">
           <div className="landing-logo">
-            <div className="landing-logo-mark">🎈</div>
             <span className="landing-logo-text">Haotlas</span>
           </div>
         </div>
@@ -32,7 +32,7 @@ export default function Landing({ onEnter }) {
             <div className="landing-heading-text">
               <div className="landing-title">HAOTLAS</div>
               <div className="landing-subtitle">
-                记录一些文稿、摄影和代码。
+                成为一个优秀的人！
               </div>
             </div>
           </div>

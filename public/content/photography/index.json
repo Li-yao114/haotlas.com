@@ -1,11 +1,68 @@
 [
   {
     "slug": "chengdu-night-01",
-    "file": "/content/photography/chengdu-night-01.md",
+    "file": "/content/photography/2024-11-30-成都站夜色.md",
     "title": "重庆·夜色 01",
     "date": "2024-11-20",
     "summary": "站台尽头的红灯。",
-    "cover": "/photos/chengdu-night-1.jpg",
+    "cover": "/content/photography/photos/11.jpg",
+    "images": [
+      {
+        "src": "/content/photography/photos/11.jpg",
+        "caption": "11",
+        "camera": "Sony A7M4",
+        "lens": "24-70 GM2",
+        "aperture": "F2.8",
+        "shutter": "1/160s",
+        "iso": 3200,
+        "lat": 30.635,
+        "lng": 104.091
+      },
+      {
+        "src": "/content/photography/photos/1.jpg",
+        "caption": "远处高楼与桥梁形成冷暖对比。",
+        "camera": "Sony A7M4",
+        "lens": "24-70 GM2",
+        "aperture": "F2.8",
+        "shutter": "1/320s",
+        "iso": 3200,
+        "lat": 30.635,
+        "lng": 104.091
+      },
+      {
+        "src": "/content/photography/photos/6.jpg",
+        "caption": "6",
+        "camera": "Sony A7M4",
+        "lens": "24-70 GM2",
+        "aperture": "F2.8",
+        "shutter": "1/480s",
+        "iso": 3200,
+        "lat": 30.635,
+        "lng": 104.091
+      },
+      {
+        "src": "/content/photography/photos/5.jpg",
+        "caption": "5",
+        "camera": "Sony A7M4",
+        "lens": "24-70 GM2",
+        "aperture": "F2.8",
+        "shutter": "1/160s",
+        "iso": 3200,
+        "lat": 30.635,
+        "lng": 104.091
+      },
+      {
+        "src": "/content/photography/photos/2.jpg",
+        "caption": "2",
+        "camera": "Sony A7M4",
+        "lens": "24-70 GM2",
+        "aperture": "F2.8",
+        "shutter": "1/160s",
+        "iso": 3200,
+        "lat": 30.635,
+        "lng": 104.091
+      }
+    ],
     "lat": 30.635,
     "lng": 104.091
   }

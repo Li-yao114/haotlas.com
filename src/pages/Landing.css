@@ -1,0 +1,191 @@
+/* 进站页（全屏覆盖） */
+.landing-root {
+    min-height: 100vh;
+    width: 100%;
+}
+
+.landing-inner {
+    position: relative;
+    width: 100%;
+    min-height: 100vh;
+    border-radius: 0;
+    padding: 28px 32px 40px;
+    background:
+    radial-gradient(circle at 10% 10%, rgba(129, 140, 248, 0.5), transparent 55%),
+    radial-gradient(circle at 90% 20%, rgba(248, 113, 113, 0.45), transparent 55%),
+    radial-gradient(circle at 50% 100%, rgba(45, 212, 191, 0.5), transparent 55%);
+    box-shadow: none;
+    border: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* 顶部栏 */
+.landing-topbar {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.landing-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.landing-logo-mark {
+    width: 32px;
+    height: 32px;
+    border-radius: 999px;
+    background: radial-gradient(circle at 30% 30%, #f97316, #ec4899);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+.landing-logo-text {
+    font-weight: 600;
+    letter-spacing: 0.04em;
+    font-size: 15px;
+}
+
+/* 中间内容 */
+.landing-center {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: left;
+    gap: 20px;
+}
+
+.landing-badge {
+    font-size: 12px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--accent);
+    padding: 6px 18px;
+    border-radius: 999px;
+    background: rgba(248, 250, 252, 0.22);
+    border: 1px solid rgba(148, 163, 184, 0.4);
+}
+
+/* 头像 + 标题一行 */
+.landing-heading {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.landing-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 18px;
+    background: url("./assets/avatar.jpg") center/cover no-repeat;
+    box-shadow: 0 16px 30px rgba(15, 23, 42, 0.35);
+}
+
+.landing-heading-text {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.landing-title {
+    font-size: 40px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+}
+
+.landing-subtitle {
+    font-size: 16px;
+    color: var(--text-secondary);
+}
+
+/* CTA 按钮 */
+.landing-cta {
+    margin-top: 6px;
+    padding: 10px 26px;
+    border-radius: 999px;
+    border: none;
+    background: linear-gradient(135deg, #2563eb, #6366f1);
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+    box-shadow: 0 10px 28px rgba(37, 99, 235, 0.5);
+    transition: transform 0.12s ease, box-shadow 0.12s ease, filter 0.12s ease;
+  }
+  
+  .landing-cta:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 14px 36px rgba(37, 99, 235, 0.6);
+    filter: brightness(1.03);
+  }
+  
+  /* 底部箭头 */
+  .landing-arrow {
+    border: none;
+    background: transparent;
+    margin-top: 8px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    font-size: 18px;
+    color: var(--text-secondary);
+    cursor: pointer;
+  }
+  
+  .landing-arrow-icon {
+    font-size: 24px;
+    animation: landing-bounce 1.4s infinite;
+  }
+  
+  @keyframes landing-bounce {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(6px);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .landing-inner {
+      padding: 20px 18px 28px;
+    }
+  
+    .landing-heading {
+      flex-direction: column;
+      text-align: center;
+    }
+  
+    .landing-title {
+      font-size: 30px;
+    }
+  
+    .landing-subtitle {
+      text-align: center;
+    }
+  }
+  
+  /* 让 header 左上角变成可点击 */
+  .site-logo-clickable {
+    cursor: pointer;
+  }
+  
+  @media (max-width: 768px) {
+    .landing-inner {
+      padding: 20px 18px 28px;
+      min-height: 84vh;
+    }
+  
+    .landing-title {
+      font-size: 30px;
+    }
+  }
