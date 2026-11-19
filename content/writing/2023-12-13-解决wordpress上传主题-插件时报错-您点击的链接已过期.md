@@ -1,9 +1,3 @@
----
-title: 解决wordpress上传主题/插件时报错：您点击的链接已过期，请重试。
-date: 2023-12-13 22:23:34
-lang: zh
-summary: 解决wordpress上传主题-插件时报错：您点击的链接已过期
----
 参考相关链接：
 
 [如何修复“您关注的链接已过期”WordPress 错误 - WPRBS](https://www.wprbs.com/zh-CN/how-to-fix-the-link-you-followed-has-expired-wordpress-error.html)

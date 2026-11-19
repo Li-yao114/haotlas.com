@@ -1,9 +1,3 @@
----
-title: 【深度学习】基于Pytorch的CNN网络对CIFAR10数据集进行分类
-date: 2023-12-28 23:25:57
-lang: zh
-summary:
----
 一、配置环境
 
 首先安装Anaconda创建Python虚拟环境，然后配置Pytorch环境（Pytorch是一个深度学习框架），然后可以在VScode中编写、调试、运行Pytorch相关代码。

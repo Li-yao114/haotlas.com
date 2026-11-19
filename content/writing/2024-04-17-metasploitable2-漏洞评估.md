@@ -1,9 +1,3 @@
----
-title: Metasploitable2 漏洞评估
-date: 2024-04-17 21:05:24
-lang: zh
-summary: metasploitable2-漏洞评估
----
 ## 一、任务
 
 目标：利用Metasploit Framework，选择并利用一个Metasploitable 2中的漏洞。

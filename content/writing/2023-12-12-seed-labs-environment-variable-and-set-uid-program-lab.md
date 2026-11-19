@@ -1,9 +1,3 @@
----
-title: SEED Labs—Environment Variable and Set-UID Program Lab 
-date: 2023-12-12 22:40:00
-lang: zh
-summary: 
----
 相关链接：
 
 - Lab 网址：[https://seedsecuritylabs.org/Labs_20.04/Software/Environment_Variable_and_SetUID/](https://seedsecuritylabs.org/Labs_20.04/Software/Environment_Variable_and_SetUID/)

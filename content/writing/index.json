@@ -1,102 +1,152 @@
 [
   {
+    "slug": "钢铁是怎样炼成的",
+    "title": "最近读书笔记",
+    "date": "2024-10-05 00:00:00",
+    "summary": "几本对自己影响比较大的书。",
+    "tags": [],
+    "lang": "zh",
+    "file": "/content/writing/2024-10-05-钢铁是怎样炼成的.md",
+    "readingMinutes": 1
+  },
+  {
     "slug": "LSB隐写与卡方检测",
-    "file": "/content/writing/2024-05-14-lsb隐写与卡方检测.md",
     "title": "LSB隐写与卡方检测",
     "date": "2024-05-14 09:53:04",
-    "summary": "",
-    "detail": "LSB隐写与卡方检测", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "lsb隐写与卡方检测",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2024-05-14-lsb隐写与卡方检测.md",
+    "readingMinutes": 5
   },
   {
     "slug": "Metasploitable2 漏洞评估",
-    "file": "/content/writing/2024-04-17-metasploitable2-漏洞评估.md",
     "title": "Metasploitable2 漏洞评估",
     "date": "2024-04-17 21:05:24",
-    "summary": "",
-    "detail": "Metasploitable2 漏洞评估", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "metasploitable2-漏洞评估",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2024-04-17-metasploitable2-漏洞评估.md",
+    "readingMinutes": 6
   },
   {
     "slug": "DES加密算法",
-    "file": "/content/writing/2024-03-23-des加密算法.md",
     "title": "DES加密算法",
     "date": "2024-03-23 12:29:22",
-    "summary": "",
-    "detail": "DES加密算法", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "des加密算法",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2024-03-23-des加密算法.md",
+    "readingMinutes": 11
   },
   {
     "slug": "栈缓存溢出攻击",
-    "file": "/content/writing/2024-03-14-栈缓存溢出攻击.md",
     "title": "栈缓存溢出攻击",
     "date": "2024-03-14 20:12:43",
-    "summary": "",
-    "detail": "栈缓存溢出攻击", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "栈缓存溢出攻击",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2024-03-14-栈缓存溢出攻击.md",
+    "readingMinutes": 8
   },
   {
     "slug": "野莲心变",
-    "file": "/content/writing/2024-02-25-野莲心变.md",
     "title": "野莲心变",
     "date": "2024-02-25 20:46:40",
     "summary": "野莲心变——万古神帝追更有感",
-    "detail": "野莲心变——万古神帝追更有感", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2024-02-25-野莲心变.md",
+    "readingMinutes": 6
   },
   {
     "slug": "【深度学习】基于Pytorch的CNN网络对CIFAR10数据集进行分类",
-    "file": "/content/writing/2023-12-28-深度学习-基于pytorch的cnn网络对cifar10数据集进行分类.md",
     "title": "【深度学习】基于Pytorch的CNN网络对CIFAR10数据集进行分类",
     "date": "2023-12-28 23:25:57",
-    "summary": "",
-    "detail": "", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "一、配置环境 首先安装Anaconda创建Python虚拟环境，然后配置Pytorch环境（Pytorch是一个深度学习框架），然后可以在VScode中编写、调试、运行Pytorch相关代码。 1.安",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2023-12-28-深度学习-基于pytorch的cnn网络对cifar10数据集进行分类.md",
+    "readingMinutes": 9
   },
   {
     "slug": "解决wordpress上传主题/插件时报错：您点击的链接已过期，请重试。",
-    "file": "/content/writing/2023-12-13-解决wordpress上传主题-插件时报错-您点击的链接已过期.md",
     "title": "解决wordpress上传主题/插件时报错：您点击的链接已过期，请重试。",
     "date": "2023-12-13 22:23:34",
-    "summary": "",
-    "detail": "解决wordpress上传主题-插件时报错：您点击的链接已过期问题", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "解决wordpress上传主题-插件时报错：您点击的链接已过期",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2023-12-13-解决wordpress上传主题-插件时报错-您点击的链接已过期.md",
+    "readingMinutes": 6
   },
   {
     "slug": "seed-labs-environment-variable-and-set-uid-program-lab",
-    "file": "/content/writing/2023-12-12-seed-labs-environment-variable-and-set-uid-program-lab.md",
     "title": "SEED Labs—Environment Variable and Set-UID Program Lab",
     "date": "2023-12-12 22:40:00",
-    "summary": "SEED Labs 实验一",
-    "detail": "SEED Labs 环境变量与 Set-UID 程序的实验记录。", 
-    "tags": ["文稿", "软件安全测试实验"],
-    "lang": "zh"
+    "summary": "相关链接： - Lab 网址：https://seedsecuritylabs.org/Labs 20.04/Software/Environment Variable and SetUID/ - 任",
+    "tags": [
+      "文稿",
+      "软件安全测试实验"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2023-12-12-seed-labs-environment-variable-and-set-uid-program-lab.md",
+    "readingMinutes": 17
+  },
+  {
+    "slug": "post-03",
+    "title": "進撃の巨人有感",
+    "date": "2023-11-05 21:04:16",
+    "summary": "",
+    "tags": [],
+    "lang": "zh",
+    "file": "/content/writing/2023-11-05-post-03.md",
+    "readingMinutes": 1
   },
   {
     "slug": "建站全过程",
-    "file": "/content/writing/2023-11-01-建站全过程.md",
     "title": "建站全过程",
     "date": "2023-11-01 22:33:16",
-    "summary": "建站全过程记录",
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "建站全过程",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2023-11-01-建站全过程.md",
+    "readingMinutes": 4
   },
   {
     "slug": "hello-world-!",
-    "file": "/content/writing/2023-10-31-hello-world.md",
-    "title": "HELLO WORLD !",
+    "title": "HELLO WORLD ！",
     "date": "2023-10-31 21:15:09",
-    "summary": "hello world !",
-    "detail": "建站第一篇文章。", 
-    "tags": ["文稿", "记录"],
-    "lang": "zh"
+    "summary": "hello-world-！",
+    "tags": [
+      "文稿",
+      "记录"
+    ],
+    "lang": "zh",
+    "file": "/content/writing/2023-10-31-hello-world.md",
+    "readingMinutes": 1
   }
 ]
-  
