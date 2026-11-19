@@ -10,6 +10,10 @@
 
 # production
 /build
+/dist
+/.cache
+/public/content
+/design-demos
 
 # misc
 .DS_Store
@@ -21,3 +25,25 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+# Local design reviews and machine-specific verification helpers
+/docs
+/brand-spec.md
+/product-facts.md
+/direction-approved.md
+/tools/capture-references.cjs
+/tools/check-demos.cjs
+/tools/verify-site.cjs
+/tools/verify-photo-flow.mjs
+
+# Keep existing unpublished drafts and unselected originals local
+/content/writing/2023-12-25-post-06.md
+/content/writing/2024-03-10-post-09.md
+/content/writing/2024-04-16-post-12.md
+/content/photography/photos/8.jpg
+/content/photography/photos/9.jpg
+/content/photography/photos/10.jpg
+/content/photography/photos/4.jpg
+/content/photography/photos/7.jpg
+/content/photography/photos/3.jpg
+/content/drafts/

@@ -17,7 +17,7 @@ export function getSystemTheme() {
 
 export function getInitialTheme() {
   if (typeof window === "undefined") {
-    return THEMES.SYSTEM;
+    return THEMES.DARK;
   }
   try {
     const saved = window.localStorage.getItem(THEME_KEY);
@@ -31,7 +31,7 @@ export function getInitialTheme() {
   } catch {
     // ignore
   }
-  return THEMES.SYSTEM;
+  return THEMES.DARK;
 }
 
 export function applyTheme(mode) {
@@ -40,6 +40,7 @@ export function applyTheme(mode) {
 
   root.setAttribute("data-theme", resolved);
   root.style.colorScheme = resolved === THEMES.DARK ? "dark" : "light";
+  document.querySelector('meta[name="theme-color"]')?.setAttribute('content', resolved === THEMES.DARK ? '#0b0c0d' : '#f5f5f2');
 }
 
 export function saveTheme(mode) {

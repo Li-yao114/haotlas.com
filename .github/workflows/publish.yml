@@ -1,0 +1,52 @@
+name: Publish Haotlas
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+
+concurrency:
+  group: haotlas-production
+  cancel-in-progress: false
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+      - uses: actions/setup-node@v6
+        with:
+          node-version: 24
+          cache: npm
+      - uses: actions/cache@v4
+        with:
+          path: .cache/photos
+          key: photos-v1-${{ hashFiles('content/photography/**', 'tools/build-content.mjs') }}
+          restore-keys: photos-v1-
+      - run: npm ci
+      - run: npm test
+      - run: npm run build
+      - name: Update published files
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git fetch origin gh-pages
+          git worktree add --detach .cache/published origin/gh-pages
+          rsync -a --delete --exclude='.git' dist/ .cache/published/
+          cd .cache/published
+          git add --all
+          if ! git diff --cached --quiet; then
+            git commit -m "Publish ${GITHUB_SHA}"
+            git push origin HEAD:gh-pages
+          fi
+      - name: Request GitHub Pages publication
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh api --method POST "repos/${GITHUB_REPOSITORY}/pages/builds"

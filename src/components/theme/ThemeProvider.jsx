@@ -49,8 +49,16 @@ export function ThemeProvider({ children }) {
   }, [theme]);
 
   const setTheme = (mode) => {
-    setThemeState(mode);
+    if (Object.values(THEMES).includes(mode)) setThemeState(mode);
   };
+
+  useEffect(() => {
+    const sync = event => {
+      if (event.key === 'haotlas-theme' || event.key === null) setThemeState(getInitialTheme());
+    };
+    window.addEventListener('storage', sync);
+    return () => window.removeEventListener('storage', sync);
+  }, []);
 
   return (
     <ThemeContext.Provider value={{ theme, resolvedTheme, setTheme }}>

@@ -1,53 +1,10 @@
-import React from "react";
-import ThemeToggle from "../theme/ThemeToggle";
-import "./Header.css";
+import React from 'react';
+import ThemeToggle from '../theme/ThemeToggle';
+import Icon from '../Icon';
+import { hrefFor } from '../../lib/navigation';
 
-const NAV_ITEMS = [
-  { id: "home", label: "主页" },
-  { id: "writing", label: "文稿" },
-  { id: "photography", label: "摄影" },
-  { id: "about", label: "关于" },
-];
+const items = [['home', '首页'], ['writing', '文稿'], ['photography', '摄影'], ['about', '关于']];
 
-export default function Header({ currentPage, onChangePage, onBackLanding }) {
-  return (
-    <header className="site-header">
-      <div className="site-header-inner">
-        {/* 左上角：点击返回进站页 */}
-        <div
-          className="site-logo site-logo-clickable"
-          onClick={onBackLanding}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") onBackLanding?.();
-          }}
-          aria-label="返回进站页"
-        >
-          <span className="site-logo-text">Haotlas</span>
-        </div>
-
-        <nav className="site-nav" aria-label="主导航">
-          {NAV_ITEMS.map((item) => (
-            <button
-              key={item.id}
-              type="button"
-              className={
-                "site-nav-item" +
-                (currentPage === item.id ? " site-nav-item-active" : "")
-              }
-              onClick={() => onChangePage(item.id)}
-            >
-              {item.label}
-            </button>
-          ))}
-        </nav>
-
-        {/* 右侧动作区 */}
-        <div className="site-actions">
-          <ThemeToggle />
-        </div>
-      </div>
-    </header>
-  );
+export default function Header({ currentPage, onOpenSearch }) {
+  return <header className="site-header"><a className="wordmark" href={hrefFor('home')} aria-label="Haotlas 首页">Haotlas</a><nav className="navigation" aria-label="主导航">{items.map(([id, label]) => <a href={hrefFor(id)} key={id} className={currentPage === id ? 'active' : undefined} aria-current={currentPage === id ? 'page' : undefined}>{label}</a>)}</nav><div className="header-actions"><button type="button" className="icon-btn" onClick={onOpenSearch} aria-label="打开搜索" title="搜索（⌘ K 或 /）"><Icon name="search" /></button><ThemeToggle /></div></header>;
 }

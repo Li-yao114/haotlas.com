@@ -1,17 +1,6 @@
-import React from "react";
-import "./About.css";
+import React from 'react';
+import { hrefFor } from '../lib/navigation';
 
 export default function About() {
-  return (
-    <div className="doc-layout-single">
-      <article className="doc-main">
-        <div className="doc-tag">ABOUT</div>
-        <h1 className="doc-title">关于我</h1>
-        <div className="doc-meta">个人简介、经历和兴趣。</div>
-        <p className="doc-paragraph">
-           111
-        </p>
-      </article>
-    </div>
-  );
+  return <section className="about-layout"><h1>关于 Haotlas</h1><p>这里存放文稿、摄影与长期记录。</p><p>有技术学习时留下的实验笔记，也有读书后的想法，以及镜头里的城市。</p><div className="about-links"><a className="text-link" href={hrefFor('writing')}>阅读文稿</a><a className="text-link" href={hrefFor('photography')}>浏览摄影手记</a></div></section>;
 }

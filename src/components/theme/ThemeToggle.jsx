@@ -1,70 +1,20 @@
-import React from "react";
-import { useTheme, THEMES } from "./ThemeProvider";
+import React, { useEffect, useRef, useState } from 'react';
+import { useTheme, THEMES } from './ThemeProvider';
+import Icon from '../Icon';
 
-const OPTIONS = [
-  { value: THEMES.LIGHT, label: "Light", iconClass: "light" },
-  { value: THEMES.DARK, label: "Dark", iconClass: "dark" },
-];
+const OPTIONS = [{ value: THEMES.LIGHT, label: '浅色', icon: 'sun' }, { value: THEMES.DARK, label: '深色', icon: 'moon' }, { value: THEMES.SYSTEM, label: '跟随系统', icon: 'system' }];
 
 export default function ThemeToggle() {
   const { theme, resolvedTheme, setTheme } = useTheme();
-  const [open, setOpen] = React.useState(false);
-  const containerRef = React.useRef(null);
-
-  const currentMode = theme === THEMES.SYSTEM ? resolvedTheme : theme;
-
-  React.useEffect(() => {
+  const [open, setOpen] = useState(false);
+  const container = useRef(null), trigger = useRef(null);
+  useEffect(() => {
     if (!open) return;
-    function handleClick(e) {
-      if (containerRef.current && !containerRef.current.contains(e.target)) {
-        setOpen(false);
-      }
-    }
-    document.addEventListener("mousedown", handleClick);
-    return () => document.removeEventListener("mousedown", handleClick);
+    const outside = event => { if (!container.current.contains(event.target)) setOpen(false); };
+    const escape = event => { if (event.key === 'Escape') { setOpen(false); trigger.current.focus(); } };
+    document.addEventListener('pointerdown', outside);
+    document.addEventListener('keydown', escape);
+    return () => { document.removeEventListener('pointerdown', outside); document.removeEventListener('keydown', escape); };
   }, [open]);
-
-  return (
-    <div className="theme-switcher" ref={containerRef}>
-      <button
-        type="button"
-        className="theme-trigger"
-        onClick={() => setOpen((v) => !v)}
-        aria-label="切换主题"
-      >
-        <span
-          className={"theme-trigger-icon theme-trigger-icon-" + currentMode}
-          aria-hidden="true"
-        />
-      </button>
-
-      {open && (
-        <div className="theme-menu">
-          {OPTIONS.map((opt) => {
-            const active = theme === opt.value;
-            return (
-              <button
-                key={opt.value}
-                type="button"
-                className="theme-menu-item"
-                onClick={() => {
-                  setTheme(opt.value);
-                  setOpen(false);
-                }}
-              >
-                <span className="theme-menu-dot">
-                  {active ? "●" : "○"}
-                </span>
-                <span
-                  className={"theme-option-icon theme-option-" + opt.iconClass}
-                  aria-hidden="true"
-                />
-                <span className="theme-option-label">{opt.label}</span>
-              </button>
-            );
-          })}
-        </div>
-      )}
-    </div>
-  );
+  return <div className="theme-picker" ref={container}><button type="button" className="icon-btn" ref={trigger} aria-label="切换主题" aria-expanded={open} aria-controls="theme-options" onClick={() => setOpen(value => !value)}><Icon name={theme === THEMES.SYSTEM ? 'system' : resolvedTheme === THEMES.DARK ? 'moon' : 'sun'} /></button>{open && <div className="theme-menu" id="theme-options" role="group" aria-label="页面主题">{OPTIONS.map(option => <button type="button" key={option.value} aria-pressed={theme === option.value} onClick={() => { setTheme(option.value); setOpen(false); trigger.current.focus(); }}><Icon name={option.icon} /><span>{option.label}</span></button>)}</div>}</div>;
 }
