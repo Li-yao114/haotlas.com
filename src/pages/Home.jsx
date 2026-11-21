@@ -1,14 +1,12 @@
 import React from 'react';
-import PhotoStage from '../components/PhotoStage';
 import WritingList from '../components/WritingList';
-import AlbumList from '../components/AlbumList';
 import { hrefFor } from '../lib/navigation';
 
 export default function Home({ writingPosts, photographyPosts }) {
-  const featured = photographyPosts[0];
-  return <>
-    {featured ? <PhotoStage key={featured.slug} album={featured} home /> : <header className="page-title"><div><h1>Haotlas</h1><p>文稿、摄影与长期记录。</p></div></header>}
-    <section className="home-writing section-divider"><div className="section-heading"><h2>最近文稿</h2><p>技术、阅读，以及生活中的一些记录。</p><a className="text-link" href={hrefFor('writing')}>全部 {writingPosts.length} 篇文稿</a></div>{writingPosts.length ? <WritingList posts={writingPosts.slice(0, 3)} /> : <p className="muted">还没有公开的文稿。</p>}</section>
-    {!!photographyPosts.length && <section className="home-photography section-divider"><div className="section-heading"><h2>摄影手记</h2><p>看见的风景，和当时的想法。</p><a className="text-link" href={hrefFor('photography')}>全部 {photographyPosts.length} 篇摄影手记</a></div><AlbumList albums={photographyPosts.slice(0, 2)} compact /></section>}
-  </>;
+  const photoCount = photographyPosts.reduce((count, album) => count + album.images.length, 0);
+  return <div className="home-index">
+    <header className="home-intro"><h1>文稿、摄影与记录。</h1><p>一些学习、阅读和日常的记录。</p></header>
+    <section className="home-notes" aria-labelledby="home-writing-title"><div className="home-section-head"><h2 id="home-writing-title">文稿</h2><a className="text-link" href={hrefFor('writing')}>查看全部 {writingPosts.length} 篇</a></div>{writingPosts.length ? <WritingList posts={writingPosts.slice(0, 4)} /> : <p className="muted">还没有公开的文稿。</p>}</section>
+    <section className="home-photo-entry" aria-labelledby="home-photography-title"><a href={hrefFor('photography')}><div><h2 id="home-photography-title">摄影</h2><p>镜头里的片刻，和照片之外的感受。</p></div><span>{photographyPosts.length} 篇手记 / {photoCount} 张照片</span></a></section>
+  </div>;
 }

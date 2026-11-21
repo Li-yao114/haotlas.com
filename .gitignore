@@ -47,3 +47,8 @@ yarn-error.log*
 /content/photography/photos/7.jpg
 /content/photography/photos/3.jpg
 /content/drafts/
+
+# Personal manuals remain on this computer
+/PUBLISHING.md
+/*使用说明*.docx
+/*更新说明*.docx
