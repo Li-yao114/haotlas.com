@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react';
 
 export default function Modal({ children, className = 'dialog', label, labelledBy, onClose }) {
   const ref = useRef(null);
+  const previousFocus = useRef(typeof document === 'undefined' ? null : document.activeElement);
   const close = useRef(onClose);
   close.current = onClose;
   useEffect(() => {
@@ -12,6 +13,7 @@ export default function Modal({ children, className = 'dialog', label, labelledB
     return () => {
       dialog.close();
       document.body.style.overflow = previousOverflow;
+      if (previousFocus.current?.isConnected) previousFocus.current.focus({ preventScroll: true });
     };
   }, []);
   return (

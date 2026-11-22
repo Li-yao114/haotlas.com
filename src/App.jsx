@@ -79,7 +79,7 @@ export default function App() {
   else if (content.error) page = <ContentState title="内容暂时无法加载" retry={() => location.reload()}>请稍后重试。</ContentState>;
   else if (route.page === 'writing') page = <Writing posts={content.writing} selectedSlug={route.slug} />;
   else if (route.page === 'photography') page = <Photography albums={content.photography} selectedSlug={route.slug} />;
-  else if (route.page === 'home') page = <Home writingPosts={content.writing} photographyPosts={content.photography} />;
+  else if (route.page === 'home') page = <Home writingPosts={content.writing} photographyPosts={content.photography} onOpenSearch={() => setSearchOpen(true)} />;
   else page = <ContentState title="这个页面暂未收录" />;
   return <ThemeProvider><a className="skip" href="#main" onClick={event => { event.preventDefault(); main.current?.focus(); main.current?.scrollIntoView({ block: 'start' }); }}>跳至正文</a><div className="shell"><Header currentPage={route.page} onOpenSearch={() => setSearchOpen(true)} /><main id="main" tabIndex={-1} ref={main}><Suspense fallback={<div className="content-loading" role="status">正在加载内容…</div>}><div className="page" key={`${route.page}/${route.slug || ''}`}>{page}</div></Suspense></main><Footer /></div>{route.slug && ['writing', 'photography'].includes(route.page) && <ReadingProgress key={`${route.page}/${route.slug}`} />}{searchOpen && <Suspense fallback={null}><SearchOverlay onClose={closeSearch} writingPosts={content.writing} photographyPosts={content.photography} /></Suspense>}</ThemeProvider>;
 }

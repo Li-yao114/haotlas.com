@@ -159,6 +159,8 @@ async function buildCollection() {
             report.photos.push({ album: post.title, ...processed });
           }
           if (!post.images.length) throw new Error(`相册没有照片：${relative}`);
+          const captureDates = post.images.map(image => image.takenAt?.slice(0, 10)).filter(Boolean).sort();
+          if (captureDates.length) post.date = captureDates[0];
           const preferredCover = data.cover ? path.basename(decodeURIComponent(String(data.cover))) : null;
           post.cover = (post.images.find(image => image.source === preferredCover) || post.images[0]).src;
           // The gallery owns the images: don't download/render them twice in prose.

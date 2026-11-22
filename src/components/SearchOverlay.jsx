@@ -28,6 +28,7 @@ export default function SearchOverlay({ onClose, writingPosts, photographyPosts 
     setActive(next); refs.current[next]?.scrollIntoView({ block: 'nearest' });
   };
   return <Modal label="搜索文稿与摄影" onClose={onClose}><div className="dialog-head"><Icon name="search" /><input type="search" autoFocus aria-label="搜索文稿与摄影" placeholder="搜索文稿、摄影与内容" value={query} onChange={event => setQuery(event.target.value)} onKeyDown={event => {
+    if (event.key === 'Escape') { event.preventDefault(); onClose(); }
     if (event.key === 'ArrowDown') move(event, 1);
     if (event.key === 'ArrowUp') move(event, -1);
     if (event.key === 'Enter' && results[active]) { event.preventDefault(); refs.current[active]?.click(); }
