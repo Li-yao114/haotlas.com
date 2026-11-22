@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import CityMap from './CityMap';
 
 const DURATION = 25 * 60;
 const TIMER_KEY = 'haotlas-focus-timer';
@@ -51,5 +52,5 @@ function Clock() {
 }
 
 export default function DashboardTools() {
-  return <><Clock /><FocusTimer /><section className="dashboard-card dashboard-tool dashboard-future"><h2>接下来</h2><p>一些想慢慢做出来的小东西。</p><ul><li><span>书影音清单</span><span>筹备中</span></li><li><span>行走地图</span><span>筹备中</span></li><li><span>灵感收藏</span><span>筹备中</span></li></ul></section></>;
+  return <><CityMap /><Clock /><FocusTimer /></>;
 }
