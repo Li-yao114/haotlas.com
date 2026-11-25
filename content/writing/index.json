@@ -7,7 +7,8 @@
     "tags": [],
     "lang": "zh",
     "file": "/content/writing/2024-10-05-钢铁是怎样炼成的.md",
-    "readingMinutes": 1
+    "readingMinutes": 1,
+    "sourceSha": "af6e9416a2e346f30466b2a097d6143745afdbcf"
   },
   {
     "slug": "LSB隐写与卡方检测",
@@ -20,7 +21,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2024-05-14-lsb隐写与卡方检测.md",
-    "readingMinutes": 5
+    "readingMinutes": 5,
+    "sourceSha": "5154cc93b0f746a1f17b07c454d00c6dcf28ca18"
   },
   {
     "slug": "Metasploitable2 漏洞评估",
@@ -33,7 +35,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2024-04-17-metasploitable2-漏洞评估.md",
-    "readingMinutes": 6
+    "readingMinutes": 6,
+    "sourceSha": "94c6c9969c9f1cfb5f9a8e7b3aa9d3c6d53ec1c2"
   },
   {
     "slug": "DES加密算法",
@@ -46,7 +49,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2024-03-23-des加密算法.md",
-    "readingMinutes": 11
+    "readingMinutes": 11,
+    "sourceSha": "8674772a6c0fd032852d0cd37fee9b0c64ab5a16"
   },
   {
     "slug": "栈缓存溢出攻击",
@@ -59,7 +63,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2024-03-14-栈缓存溢出攻击.md",
-    "readingMinutes": 8
+    "readingMinutes": 8,
+    "sourceSha": "5a9af509f7ceffb5cc8f998948fe14906571c75c"
   },
   {
     "slug": "野莲心变",
@@ -72,7 +77,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2024-02-25-野莲心变.md",
-    "readingMinutes": 6
+    "readingMinutes": 6,
+    "sourceSha": "b2eecb75f00e7f578d577fcb251447fd25caffb6"
   },
   {
     "slug": "【深度学习】基于Pytorch的CNN网络对CIFAR10数据集进行分类",
@@ -85,7 +91,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2023-12-28-深度学习-基于pytorch的cnn网络对cifar10数据集进行分类.md",
-    "readingMinutes": 9
+    "readingMinutes": 9,
+    "sourceSha": "e249628af0a13bf844245aef271670bf7064964a"
   },
   {
     "slug": "解决wordpress上传主题/插件时报错：您点击的链接已过期，请重试。",
@@ -98,7 +105,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2023-12-13-解决wordpress上传主题-插件时报错-您点击的链接已过期.md",
-    "readingMinutes": 6
+    "readingMinutes": 6,
+    "sourceSha": "9eac04b15a62dd9adcdd8f6fca6048fa80d3059d"
   },
   {
     "slug": "seed-labs-environment-variable-and-set-uid-program-lab",
@@ -111,7 +119,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2023-12-12-seed-labs-environment-variable-and-set-uid-program-lab.md",
-    "readingMinutes": 17
+    "readingMinutes": 17,
+    "sourceSha": "ffe0cdae519fc51152c4e35243d3865fba11725a"
   },
   {
     "slug": "post-03",
@@ -121,7 +130,8 @@
     "tags": [],
     "lang": "zh",
     "file": "/content/writing/2023-11-05-post-03.md",
-    "readingMinutes": 1
+    "readingMinutes": 1,
+    "sourceSha": "f4685afdb226790c4c233d5b7aa54971c78141e9"
   },
   {
     "slug": "建站全过程",
@@ -134,7 +144,8 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2023-11-01-建站全过程.md",
-    "readingMinutes": 4
+    "readingMinutes": 4,
+    "sourceSha": "797f5ec4e6d79492acb3d41d70a74fa05dc7f3a5"
   },
   {
     "slug": "hello-world-!",
@@ -147,6 +158,7 @@
     ],
     "lang": "zh",
     "file": "/content/writing/2023-10-31-hello-world.md",
-    "readingMinutes": 1
+    "readingMinutes": 1,
+    "sourceSha": "1e28faa7b4ced7dd7f5a7822b015dddfaf0122e6"
   }
 ]
