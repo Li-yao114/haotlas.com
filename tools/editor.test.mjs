@@ -46,5 +46,5 @@ test('同步拒绝越界写入与并发修改，避免覆盖其他编辑结果',
   const client=githubContent('test-only-placeholder');await assert.rejects(()=>client.publish({path:'src/App.jsx',sha:null,text:'A'}));
   const original=globalThis.fetch;
   globalThis.fetch=async()=>Response.json({sha:'newer-sha'});
-  try{await assert.rejects(()=>client.publish({path:'content/records/test.md',sha:'old-sha',text:'A'}),/其他窗口/);}finally{globalThis.fetch=original;}
+  try{await assert.rejects(()=>client.publish({path:'content/records/test.md',sha:'old-sha',text:'A'}),error=>error.code==='CONFLICT');}finally{globalThis.fetch=original;}
 });

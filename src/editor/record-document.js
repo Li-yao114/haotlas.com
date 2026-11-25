@@ -27,3 +27,15 @@ export function newRecord() {
   return { id, path: `content/records/${date}-${id.slice(0, 8)}.md`, sha: null, data: { title: '', date, category: 'food', draft: true, slug: `${date}-${id.slice(0, 8)}`, summary: '', foodRating: { taste: null, service: null, environment: null }, ratingMode: 'weighted', images: [], cover: '', placeName: '', city: '', address: '', mapPoint: '', cost: '', recommended: '' }, body: '' };
 }
 export const sourceImageUrl = path => path.startsWith('https:') ? path : `https://raw.githubusercontent.com/Li-yao114/haotlas.com/main/${String(path).replace(/^\//, '')}`;
+
+export function entryText(entry, draft = true) {
+  if (entry.kind === 'site') return JSON.stringify(entry.data, null, 2) + '\n';
+  const data = { ...entry.data, draft };
+  if (entry.kind === 'records') return writeRecord(data, entry.body);
+  if (data.slug && (/^https?:\/\//i.test(data.slug) || data.slug.split(/[\\/]/).some(part => ['.', '..'].includes(part)))) throw new Error('内容地址请填写名称，不要填写完整网址或相对路径。');
+  if (!String(data.title || '').trim()) throw new Error('请填写标题。');
+  if (!data.date) throw new Error('请选择日期。');
+  if (!draft && entry.kind === 'writing' && !entry.body.trim() && !data.sourceDocument) throw new Error('请先写正文或导入文稿。');
+  if (!draft && entry.kind === 'photography' && !data.images?.length) throw new Error('请至少添加一张照片。');
+  return `---\n${stringify(data, { lineWidth: 0 })}---\n\n${entry.body.trim()}\n`;
+}

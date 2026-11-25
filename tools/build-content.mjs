@@ -148,6 +148,7 @@ async function buildCollection() {
           continue;
         }
         const post = makePost(data, body, relative);
+        post.sourceSha = createHash('sha1').update(`blob ${Buffer.byteLength(raw)}\0`).update(raw).digest('hex');
         const key = `${kind}/${post.slug}`;
         if (slugs.has(key)) throw new Error(`重复 slug：${key}`);
         slugs.add(key);

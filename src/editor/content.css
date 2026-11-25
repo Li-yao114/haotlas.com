@@ -34,3 +34,39 @@
 
 .editor-top .editor-top-publish { color: var(--bg); background: var(--fg); border-color: var(--fg); }
 @media(max-width:760px) { .editor-save-bar { position: static; box-shadow: none; } }
+.editor-top > div:last-child { flex-wrap: wrap; justify-content: flex-end; }
+.draft-library { padding-bottom: 24px; margin-bottom: 30px; border-bottom: 1px solid var(--line); }
+.draft-library > header { display: flex; align-items: center; justify-content: space-between; gap: 16px; margin-bottom: 15px; }
+.draft-library h2 { font-size: 18px; font-weight: 500; }
+.draft-library > header button { min-height: 44px; font-size: 14px; }
+.draft-library-tools { display: flex; justify-content: space-between; align-items: center; gap: 16px; }
+.draft-library-tools > div { display: flex; gap: 6px; flex-wrap: wrap; }
+.draft-library-tools button { min-height: 44px; padding: 8px 12px; border: 1px solid var(--line); border-radius: 4px; font-size: 13px; }
+.draft-library-tools button[aria-pressed=true] { background: var(--soft); border-color: var(--fg); }
+.draft-library-tools button span { margin-left: 7px; color: var(--muted); font: 12px ui-monospace,monospace; }
+.draft-library-tools input { width: 210px; min-width: 0; padding: 12px; font-size: 14px; min-height: 44px; border-radius: 4px; color: var(--fg); background: var(--bg); border: 1px solid var(--line); }
+.draft-library-help { font-size: 13px; color: var(--muted); line-height: 1.8; margin: 14px 0; }
+.draft-library-list { display: grid; gap: 8px; max-height: 440px; overflow: auto; padding: 3px; }
+.draft-library-list article { display: flex; align-items: center; gap: 16px; border: 1px solid var(--line); border-radius: 4px; padding: 5px 14px; }
+.draft-library-list article.current { box-shadow: inset 3px 0 var(--accent); }
+.draft-open { flex: 1; min-width: 0; text-align: left; padding: 12px 0; }
+.draft-open strong { display: block; font-size: 16px; font-weight: 500; overflow-wrap: anywhere; }
+.draft-open p { color: var(--muted); font-size: 14px; margin-top: 8px; overflow-wrap: anywhere; }
+.draft-open > span { display: block; font-size: 12px; color: var(--muted); margin-top: 8px; }
+.draft-row-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.draft-row-actions button { min-height: 44px; padding: 6px; color: var(--muted); font-size: 12px; }
+.draft-library-empty { padding: 20px 0; color: var(--muted); font-size: 14px; }
+.publication-progress { border: 1px solid var(--line); padding: 18px 20px; border-radius: 4px; margin-bottom: 24px; display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+.publication-progress > div { display: grid; flex: 1; min-width: 150px; gap: 8px; }
+.publication-progress strong { font-size: 14px; font-weight: 500; overflow-wrap: anywhere; }
+.publication-progress span { color: var(--muted); font-size: 12px; }
+.publication-progress progress { width: 130px; height: 6px; accent-color: var(--accent); }
+.publication-progress button { min-height: 44px; border: 1px solid var(--line); border-radius: 4px; padding: 8px 16px; font-size: 13px; }
+.editor-save-bar { flex-wrap: wrap; }
+.editor-save-bar > .publish-footer-feedback { width: 100%; flex: 0 0 100%; align-items: center; justify-content: space-between; flex-direction: row; display: flex; gap: 12px; }
+.publish-footer-feedback span { overflow-wrap: anywhere; }
+.editor-save-bar > div:last-child { flex-wrap: wrap; }
+@media(max-width:1050px) { .draft-library-tools { flex-direction: column; align-items: stretch; }.draft-library-tools input { width: 100%; } }
+@media(max-width:600px) { .editor-top { align-items: start; }.editor-top > div:last-child { gap: 6px; }.editor-top button { padding: 7px; }.draft-library-tools button { font-size: 12px; padding-inline: 9px; }.draft-library-list article { display: block; padding: 8px 14px; }.draft-row-actions { border-top: 1px solid var(--line); justify-content: flex-end; }.editor-save-bar > .publish-footer-feedback { flex-direction: column; align-items: start; }.publication-progress progress { width: 100%; order: 3; }.editor-save-bar > div:last-child { display: grid; grid-template-columns: 1fr 1fr; }.editor-save-bar > div:last-child > button:last-child { grid-column: 1/-1; } }
+
+@media(max-width:600px) { .editor-top { display: block; }.editor-top > div:last-child { justify-content: flex-start; margin-top: 16px; }.draft-library-tools button { font-size: 13px; } }
