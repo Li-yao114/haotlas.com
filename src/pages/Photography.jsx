@@ -1,3 +1,4 @@
+import { site } from '../lib/site';
 import React from 'react';
 import AlbumList from '../components/AlbumList';
 import PhotoStage from '../components/PhotoStage';
@@ -24,5 +25,5 @@ export default function Photography({ albums, selectedSlug, initialBody }) {
     return album ? <PhotoEssay key={album.slug} album={album} albums={albums} initialBody={initialBody} /> : <ContentState title="这篇摄影手记暂未收录" back="photography" backLabel="查看全部摄影手记" />;
   }
   const total = albums.reduce((count, album) => count + album.images.length, 0);
-  return <div className="photography-index"><header className="page-title"><div><h1>摄影</h1><p>看见的风景，和当时的想法。</p></div><span className="count">{albums.length} 篇手记 / {total} 张照片</span></header>{albums.length ? <AlbumList albums={albums} /> : <ContentState title="影像慢慢积累" >新的摄影手记会出现在这里。</ContentState>}</div>;
+  return <div className="photography-index"><header className="page-title"><div><h1>{site.pages.photographyTitle}</h1><p>{site.pages.photographyDescription}</p></div><span className="count">{albums.length} 篇手记 / {total} 张照片</span></header>{albums.length ? <AlbumList albums={albums} /> : <ContentState title="影像慢慢积累" >新的摄影手记会出现在这里。</ContentState>}</div>;
 }

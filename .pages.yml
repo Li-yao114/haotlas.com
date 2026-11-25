@@ -3,13 +3,47 @@ media:
     label: 文稿插图
     input: content/writing/assets
     output: /content/writing/assets
-    extensions: [jpg, jpeg, png, webp, avif, gif]
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+      - gif
     rename: random
   - name: photography_images
     label: 摄影照片
     input: content/photography/photos
     output: /content/photography/photos
-    extensions: [jpg, jpeg, png, webp, avif, tiff, tif]
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+      - tiff
+      - tif
+    rename: random
+  - name: record_images
+    label: 记录配图
+    input: content/records/assets
+    output: /content/records/assets
+    extensions:
+      - jpg
+      - jpeg
+      - png
+      - webp
+      - avif
+      - gif
+    rename: random
+  - name: documents
+    label: Typora 文稿
+    input: content/documents
+    output: /content/documents
+    extensions:
+      - md
+      - markdown
+      - zip
     rename: random
 content:
   - name: writing
@@ -18,13 +52,18 @@ content:
     path: content/writing
     format: yaml-frontmatter
     subfolders: false
-    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    filename: '{year}-{month}-{day}-{hour}{minute}{second}.md'
     operations:
       rename: false
     view:
       primary: title
-      fields: [title, date, draft]
-      sort: [date, title]
+      fields:
+        - title
+        - date
+        - draft
+      sort:
+        - date
+        - title
       default:
         sort: date
         order: desc
@@ -57,29 +96,52 @@ content:
         label: 文章地址
         type: string
         description: 新文章可留空；已有文章请保持原值，避免链接变化。
+      - name: sourceDocument
+        label: Typora 文稿（可选）
+        type: file
+        description: 上传 .md 或 .markdown；带本地配图时，将一篇文稿和图片文件夹打成 ZIP 上传。保存后网站直接读取这个文件的正文；要改回在线正文，请先清除此项。
+        options:
+          media: documents
+          extensions:
+            - md
+            - markdown
+            - zip
+          rename: random
       - name: body
-        label: 正文
+        label: 正文（在线编辑）
         type: rich-text
-        required: true
+        required: false
         options:
           format: markdown
           switcher: true
           media: writing_images
-          extensions: [jpg, jpeg, png, webp, avif, gif]
+          extensions:
+            - jpg
+            - jpeg
+            - png
+            - webp
+            - avif
+            - gif
           rename: random
+        description: 可在线编辑，也可在上方导入 Typora 文件；导入文件存在时以文件正文为准。
   - name: photography
     label: 摄影手记
     type: collection
     path: content/photography
     format: yaml-frontmatter
     subfolders: false
-    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    filename: '{year}-{month}-{day}-{hour}{minute}{second}.md'
     operations:
       rename: false
     view:
       primary: title
-      fields: [title, date, draft]
-      sort: [date, title]
+      fields:
+        - title
+        - date
+        - draft
+      sort:
+        - date
+        - title
       default:
         sort: date
         order: desc
@@ -135,12 +197,288 @@ content:
         type: boolean
         default: false
         description: 默认关闭。原始照片本身仍会保存到公开仓库。
+  - name: records
+    label: 记录
+    type: collection
+    path: content/records
+    format: yaml-frontmatter
+    subfolders: false
+    filename: '{year}-{month}-{day}-{hour}{minute}{second}.md'
+    operations:
+      rename: false
+    view:
+      primary: title
+      fields:
+        - title
+        - category
+        - date
+        - rating
+        - draft
+      sort:
+        - date
+        - title
+        - rating
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: category
+        label: 类型
+        type: select
+        default: food
+        options:
+          values:
+            - name: food
+              label: 美食
+            - name: place
+              label: 地点
+            - name: event
+              label: 事件
+      - name: date
+        label: 到访或发生日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+          time: false
+      - name: draft
+        label: 暂不在网站展示
+        type: boolean
+        default: true
+        description: 保存仍会写入公开仓库；此开关只控制网站展示。
+      - name: summary
+        label: 一句话记忆
+        type: text
+      - name: sourceDocument
+        label: Typora 文稿（可选）
+        type: file
+        description: 上传 .md 或 .markdown；带本地配图时，将一篇文稿和图片文件夹打成 ZIP 上传。保存后网站直接读取这个文件的正文；要改回在线正文，请先清除此项。
+        options:
+          media: documents
+          extensions:
+            - md
+            - markdown
+            - zip
+          rename: random
+      - name: body
+        label: 记录正文
+        type: rich-text
+        options:
+          format: markdown
+          switcher: true
+          media: record_images
+          rename: random
+      - name: images
+        label: 照片
+        type: image
+        options:
+          media: record_images
+          multiple: true
+          unique: true
+          rename: random
+      - name: cover
+        label: 封面
+        type: image
+        description: 从本条记录的照片中选择，留空使用第一张。
+        options:
+          media: record_images
+      - name: rating
+        label: 我的总评
+        type: select
+        default: unrated
+        options:
+          values:
+            - name: unrated
+              label: 暂不评分
+            - name: '1.0'
+              label: 1.0 / 5 星
+            - name: '1.5'
+              label: 1.5 / 5 星
+            - name: '2.0'
+              label: 2.0 / 5 星
+            - name: '2.5'
+              label: 2.5 / 5 星
+            - name: '3.0'
+              label: 3.0 / 5 星
+            - name: '3.5'
+              label: 3.5 / 5 星
+            - name: '4.0'
+              label: 4.0 / 5 星
+            - name: '4.5'
+              label: 4.5 / 5 星
+            - name: '5.0'
+              label: 5.0 / 5 星
+        description: 独立填写的个人感受，满分 5 星，支持半星。
+      - name: dimensions
+        label: 分项评分
+        type: object
+        list:
+          max: 8
+          collapsible:
+            collapsed: false
+            summary: '{name}'
+        description: 按内容选择相关维度；不适用的维度留空，不计作零分。
+        fields:
+          - name: name
+            label: 维度
+            type: select
+            options:
+              values:
+                - 味道
+                - 环境
+                - 服务
+                - 性价比
+                - 体验
+                - 氛围
+                - 风景
+                - 便利度
+                - 组织
+                - 纪念意义
+          - name: score
+            label: 评分
+            type: select
+            default: unrated
+            options:
+              values:
+                - name: unrated
+                  label: 暂不评分
+                - name: '1.0'
+                  label: 1.0 / 5 星
+                - name: '1.5'
+                  label: 1.5 / 5 星
+                - name: '2.0'
+                  label: 2.0 / 5 星
+                - name: '2.5'
+                  label: 2.5 / 5 星
+                - name: '3.0'
+                  label: 3.0 / 5 星
+                - name: '3.5'
+                  label: 3.5 / 5 星
+                - name: '4.0'
+                  label: 4.0 / 5 星
+                - name: '4.5'
+                  label: 4.5 / 5 星
+                - name: '5.0'
+                  label: 5.0 / 5 星
+      - name: cost
+        label: 消费金额（人民币）
+        type: number
+        description: 美食按人均填写，其他类型按本次花费填写；不想记录可留空。
+        options:
+          min: 0
+      - name: recommended
+        label: 推荐与亮点
+        type: text
+        description: 例如推荐菜、值得停留的角落或印象深刻的时刻。
+      - name: placeName
+        label: 店铺或地点名称
+        type: string
+      - name: city
+        label: 城市
+        type: string
+      - name: address
+        label: 详细地址
+        type: text
+      - name: mapPoint
+        label: 地图位置
+        type: string
+        description: '打开 https://haotlas.com/admin/location/ 点击地图选点，复制坐标后粘贴在此。未填写时仍可显示文字地址。'
+      - name: navigationUrl
+        label: 导航链接（可选）
+        type: string
+        description: 可粘贴高德、腾讯等地图的分享链接；留空则使用地图坐标打开位置。
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: slug
+        label: 记录地址
+        type: string
+        description: 新记录留空即可；已有记录请保持原值。
+  - name: site_copy
+    label: 网站文案
+    type: file
+    path: content/site.json
+    format: json
+    fields:
+      - name: home
+        label: 首页
+        type: object
+        fields:
+          - name: title
+            label: 主标题
+            type: string
+          - name: description
+            label: 简介
+            type: text
+          - name: profileName
+            label: 个人名称
+            type: string
+          - name: profileBio
+            label: 个人简介
+            type: text
+          - name: artworkCaption
+            label: 插画旁的说明
+            type: string
+          - name: photographyIntro
+            label: 摄影入口简介
+            type: text
+          - name: recordsIntro
+            label: 记录入口简介
+            type: text
+      - name: pages
+        label: 栏目标题与简介
+        type: object
+        fields:
+          - name: writingTitle
+            label: 文稿标题
+            type: string
+          - name: writingDescription
+            label: 文稿简介
+            type: text
+          - name: photographyTitle
+            label: 摄影标题
+            type: string
+          - name: photographyDescription
+            label: 摄影简介
+            type: text
+          - name: recordsTitle
+            label: 记录标题
+            type: string
+          - name: recordsDescription
+            label: 记录简介
+            type: text
+      - name: about
+        label: 关于页
+        type: object
+        fields:
+          - name: title
+            label: 主标题
+            type: string
+          - name: body
+            label: 关于正文
+            type: rich-text
+            options:
+              format: markdown
+              switcher: true
+              media: false
+      - name: footer
+        label: 页脚
+        type: object
+        fields:
+          - name: copyright
+            label: 页脚署名
+            type: string
 settings:
   content:
     merge: true
   commit:
     templates:
-      create: "Add {filename}"
-      update: "Update {filename}"
-      delete: "Delete {filename}"
-      rename: "Rename {oldFilename} to {newFilename}"
+      create: 'Add {filename}'
+      update: 'Update {filename}'
+      delete: 'Delete {filename}'
+      rename: 'Rename {oldFilename} to {newFilename}'

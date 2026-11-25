@@ -1,0 +1,24 @@
+{
+  "home": {
+    "title": "我的一方天地。",
+    "description": "写下所想，留住所见，也留一点位置给新鲜事。",
+    "profileName": "Haotlas",
+    "profileBio": "学习、阅读、摄影。\n慢慢积累自己的记录。",
+    "artworkCaption": "一些偏爱的画面",
+    "photographyIntro": "镜头里的片刻，\n还有照片之外的感受。",
+    "recordsIntro": "吃过的味道，走过的地方，\n以及值得留下的时刻。"
+  },
+  "pages": {
+    "writingTitle": "文稿",
+    "writingDescription": "技术学习、阅读，以及生活中的一些记录。",
+    "photographyTitle": "摄影",
+    "photographyDescription": "看见的风景，和当时的想法。",
+    "recordsTitle": "记录",
+    "recordsDescription": "美食、地点和事件，为值得纪念的经历留一个位置。"
+  },
+  "about": {
+    "title": "关于 Haotlas",
+    "body": "这里存放文稿、摄影与长期记录。\n\n有技术学习时留下的实验笔记，也有读书后的想法，以及镜头里的城市。"
+  },
+  "footer": { "copyright": "Designed By Haotlas" }
+}

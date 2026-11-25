@@ -1,3 +1,4 @@
+import { site } from '../lib/site';
 import React, { useState } from 'react';
 import MarkdownContent from '../components/MarkdownContent';
 import WritingList from '../components/WritingList';
@@ -20,5 +21,5 @@ export default function Writing({ posts, selectedSlug, initialBody }) {
   }
   const years = [...new Set(posts.map(post => post.date.slice(0, 4)))];
   const filtered = year === 'all' ? posts : posts.filter(post => post.date.startsWith(year));
-  return <><header className="page-title"><div><h1>文稿</h1><p>技术学习、阅读，以及生活中的一些记录。</p></div><span className="count">{posts.length} 篇</span></header><section className="writing-archive"><nav className="year-index" aria-label="按年份筛选文稿">{[['all', '全部'], ...years.map(y => [y, y])].map(([value, label]) => <button type="button" key={value} onClick={() => setYear(value)} aria-pressed={year === value}>{label}</button>)}</nav><div className="archive-list">{filtered.length ? <WritingList posts={filtered} /> : <p className="muted">还没有公开的文稿。</p>}</div></section></>;
+  return <><header className="page-title"><div><h1>{site.pages.writingTitle}</h1><p>{site.pages.writingDescription}</p></div><span className="count">{posts.length} 篇</span></header><section className="writing-archive"><nav className="year-index" aria-label="按年份筛选文稿">{[['all', '全部'], ...years.map(y => [y, y])].map(([value, label]) => <button type="button" key={value} onClick={() => setYear(value)} aria-pressed={year === value}>{label}</button>)}</nav><div className="archive-list">{filtered.length ? <WritingList posts={filtered} /> : <p className="muted">还没有公开的文稿。</p>}</div></section></>;
 }

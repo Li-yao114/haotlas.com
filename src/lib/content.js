@@ -10,6 +10,7 @@ const initial = getPageData();
 if (initial) {
   requests.set('json:/content/writing/index.json', Promise.resolve(initial.writing));
   requests.set('json:/content/photography/index.json', Promise.resolve(initial.photography));
+  if (Array.isArray(initial.records)) requests.set('json:/content/records/index.json', Promise.resolve(initial.records));
   if (initial.file) requests.set(`text:${initial.file}`, Promise.resolve(initial.body));
 }
 
@@ -36,3 +37,5 @@ export async function loadMarkdown(path) {
 }
 export async function loadWritingIndex() { return [...await loadJson('/content/writing/index.json')]; }
 export async function loadPhotographyIndex() { return [...await loadJson('/content/photography/index.json')]; }
+
+export async function loadRecordsIndex() { return [...await loadJson('/content/records/index.json')]; }

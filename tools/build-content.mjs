@@ -5,6 +5,8 @@ import { createHash } from 'node:crypto';
 import matter from 'gray-matter';
 import exifr from 'exifr';
 import sharp from 'sharp';
+import { normalizeRecord } from '../src/lib/records.js';
+import { importDocument } from './import-document.mjs';
 import { safePath, dateString, plainText, readingMinutes, photoMetadata } from './content-utils.mjs';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
@@ -45,7 +47,7 @@ function makePost(data, body, relative) {
   };
 }
 
-async function processPhoto(source, { caption = '', showLocation = false } = {}) {
+async function processPhoto(source, { caption = '', showLocation = false, kind = 'photography' } = {}) {
   const buffer = await readFile(source);
   const hash = createHash('sha256').update(buffer).update(String(FORMAT_VERSION)).digest('hex').slice(0, 16);
   const cacheFolder = path.join(CACHE, hash);
@@ -70,10 +72,11 @@ async function processPhoto(source, { caption = '', showLocation = false } = {})
     cached = { width, height, originalBytes: buffer.length, variants, metadata: photoMetadata(tags, { showLocation: true }) };
     await writeJson(infoFile, cached);
   }
+  await mkdir(path.join(STAGING, kind, 'photos'), { recursive: true });
   for (const variant of cached.variants) {
-    await cp(path.join(cacheFolder, variant.filename), path.join(STAGING, 'photography/photos', variant.filename));
+    await cp(path.join(cacheFolder, variant.filename), path.join(STAGING, kind, 'photos', variant.filename));
   }
-  const url = variant => `/content/photography/photos/${variant.filename}`;
+  const url = variant => `/content/${kind}/photos/${variant.filename}`;
   const regular = cached.variants.find(v => v.width >= 1600) || cached.variants.at(-1);
   const metadata = { ...cached.metadata };
   if (!showLocation) { delete metadata.lat; delete metadata.lng; }
@@ -93,7 +96,7 @@ function galleryImages(data, body) {
     .map(match => ({ src: match[2] || match[3], caption: match[1] }));
 }
 
-async function prepareWritingAssets(body, file) {
+async function prepareWritingAssets(body, file, resolver, kind = 'writing') {
   // Obsidian's pasted-image syntax and standard Markdown use the same asset path.
   let result = body.replace(/!\[\[([^\]|]+)(?:\|([^\]]+))?\]\]/g, (_, source, alt) => `![${alt || ''}](<${source}>)`);
   const matches = [...result.matchAll(/!\[([^\]]*)\]\((?:<([^>]+)>|([^\s)]+))(?:\s+"[^"]*")?\)/g)];
@@ -101,36 +104,43 @@ async function prepareWritingAssets(body, file) {
     const src = match[2] || match[3];
     if (/^(https?:|data:|\/\/)/i.test(src)) continue;
     const decoded = decodeURIComponent(src);
-    const source = decoded.startsWith('/content/')
+    const sourceFile = resolver ? null : decoded.startsWith('/content/')
       ? safePath(SOURCE, decoded.slice(9))
       : safePath(SOURCE, path.join(path.relative(SOURCE, path.dirname(file)), decoded));
-    const buffer = await readFile(source);
+    const { buffer, source } = resolver ? await resolver(src) : { buffer: await readFile(sourceFile), source: sourceFile };
     const hash = createHash('sha256').update(buffer).digest('hex').slice(0, 16);
     const extension = path.extname(source).toLowerCase();
     if (!['.jpg', '.jpeg', '.png', '.webp', '.avif', '.gif', '.svg'].includes(extension)) throw new Error(`不支持的文稿图片：${src}`);
     const name = `${hash}${extension}`;
-    const destination = path.join(STAGING, 'writing/assets', name);
+    const destination = path.join(STAGING, kind, 'assets', name);
     await mkdir(path.dirname(destination), { recursive: true });
     await writeFile(destination, buffer);
-    result = result.slice(0, match.index) + `![${match[1]}](/content/writing/assets/${name})` + result.slice(match.index + match[0].length);
+    result = result.slice(0, match.index) + `![${match[1]}](/content/${kind}/assets/${name})` + result.slice(match.index + match[0].length);
   }
   return result;
 }
 
 async function buildCollection() {
+  const site = JSON.parse(await readFile(path.join(SOURCE, 'site.json'), 'utf8'));
+  for (const section of ['home', 'pages', 'about', 'footer']) {
+    if (!site[section] || Object.values(site[section]).some(value => typeof value !== 'string')) throw new Error(`站点文案 ${section} 应为文字字段。`);
+  }
   await rm(STAGING, { recursive: true, force: true });
   await mkdir(path.join(STAGING, 'writing'), { recursive: true });
   await mkdir(path.join(STAGING, 'photography/photos'), { recursive: true });
-  const writing = [], photography = [], search = [], report = { drafts: [], empty: [], externalImages: [], photos: [] };
+  const writing = [], photography = [], records = [], search = [], report = { drafts: [], empty: [], externalImages: [], photos: [] };
   const slugs = new Set();
   try {
-    for (const kind of ['writing', 'photography']) {
+    for (const kind of ['writing', 'photography', 'records']) {
       for (const file of await listMarkdown(path.join(SOURCE, kind))) {
         const relative = path.relative(SOURCE, file);
         const raw = await readFile(file, 'utf8');
-        const { data, content: body } = matter(raw);
+        const { data, content: originalBody } = matter(raw);
+        if (data.draft === true) { report.drafts.push(relative); continue; }
+        let body = originalBody, resolver;
+        if (data.sourceDocument) { const imported = await importDocument(data.sourceDocument, SOURCE); body = imported.body; resolver = imported.asset; }
         // Draft source is never copied into public, even when it has a body.
-        const empty = !body.trim() && (kind === 'writing' || (!data.folder && !data.images?.length));
+        const empty = kind === 'records' ? !String(data.title || '').trim() : !body.trim() && (kind === 'writing' || (!data.folder && !data.images?.length));
         if (data.draft === true || empty) {
           report.drafts.push(relative);
           if (empty) report.empty.push(relative);
@@ -166,8 +176,22 @@ async function buildCollection() {
           // The gallery owns the images: don't download/render them twice in prose.
           publicBody = body.replace(/!\[[^\]]*\]\((?:<[^>]+>|[^\s)]+)(?:\s+"[^"]*")?\)/g, '').trim();
           photography.push(post);
+        } else if (kind === 'records') {
+          Object.assign(post, normalizeRecord(data));
+          post.images = [];
+          for (const image of (Array.isArray(data.images) ? data.images : [])) {
+            const src = typeof image === 'string' ? image : image.src;
+            if (!src || /^https?:/i.test(src)) throw new Error('记录照片请从本地素材库上传。');
+            const decoded = decodeURIComponent(src);
+            const source = decoded.startsWith('/content/') ? safePath(SOURCE, decoded.slice(9)) : safePath(SOURCE, path.join(path.dirname(relative), decoded));
+            post.images.push(await processPhoto(source, { caption: typeof image === 'string' ? '' : String(image.caption || ''), kind: 'records' }));
+          }
+          const preferred = data.cover ? path.basename(decodeURIComponent(String(data.cover))) : null;
+          post.cover = (post.images.find(image => image.source === preferred) || post.images[0])?.src || null;
+          publicBody = await prepareWritingAssets(body, file, resolver, kind);
+          records.push(post);
         } else {
-          publicBody = await prepareWritingAssets(body, file);
+          publicBody = await prepareWritingAssets(body, file, resolver);
           writing.push(post);
           const links = [...body.matchAll(/!\[[^\]]*\]\((https?:[^\s)]+)/g)].map(m => m[1]);
           if (links.length) report.externalImages.push({ file: relative, count: links.length, urls: links });
@@ -175,12 +199,13 @@ async function buildCollection() {
         const target = safePath(STAGING, relative);
         await mkdir(path.dirname(target), { recursive: true });
         await writeFile(target, publicBody.trim() + '\n');
-        search.push({ ...post, text: plainText(publicBody) });
+        search.push({ ...post, text: [plainText(publicBody), post.placeName, post.city, post.address, post.recommended, ...(post.dimensions || []).map(item => item.name)].filter(Boolean).join(' ') });
       }
     }
-    writing.sort(compareDate); photography.sort(compareDate);
+    writing.sort(compareDate); photography.sort(compareDate); records.sort(compareDate);
     await writeJson(path.join(STAGING, 'writing/index.json'), writing);
     await writeJson(path.join(STAGING, 'photography/index.json'), photography);
+    await writeJson(path.join(STAGING, 'records/index.json'), records);
     await writeJson(path.join(STAGING, 'search.json'), search.map(({ images, ...entry }) => entry));
     await writeJson(path.join(ROOT, '.cache/content-report.json'), report);
     // Replace only after the complete collection passes validation.
@@ -193,8 +218,8 @@ async function buildCollection() {
       throw error;
     }
     await rm(previous, { recursive: true, force: true });
-    console.log(`内容已更新：${writing.length} 篇文稿，${photography.length} 组摄影，${report.drafts.length} 篇草稿。`);
-    return { writing, photography, report };
+    console.log(`内容已更新：${writing.length} 篇文稿，${photography.length} 组摄影，${records.length} 条记录，${report.drafts.length} 篇草稿。`);
+    return { writing, photography, records, report };
   } catch (error) {
     await rm(STAGING, { recursive: true, force: true });
     throw error;
