@@ -1,5 +1,42 @@
 [
   {
+    "slug": "2026-11-25-dda2d801",
+    "title": "天府艺术公园",
+    "date": "2026-04-22 00:00:00",
+    "summary": "冷暖自知",
+    "tags": [],
+    "lang": "zh",
+    "file": "/content/photography/2026-11-25-dda2d801.md",
+    "readingMinutes": 1,
+    "images": [
+      {
+        "source": "20aae9dc-319c-4b16-9b9d-2661b2703a2e.jpg",
+        "src": "/content/photography/photos/6c5c80d6f6b03349-1600.webp",
+        "thumb": "/content/photography/photos/6c5c80d6f6b03349-480.webp",
+        "full": "/content/photography/photos/6c5c80d6f6b03349-2400.webp",
+        "srcSet": "/content/photography/photos/6c5c80d6f6b03349-480.webp 480w, /content/photography/photos/6c5c80d6f6b03349-960.webp 960w, /content/photography/photos/6c5c80d6f6b03349-1600.webp 1600w, /content/photography/photos/6c5c80d6f6b03349-2400.webp 2400w",
+        "width": 7008,
+        "height": 3944,
+        "caption": "",
+        "originalBytes": 11215762,
+        "displayBytes": 78564
+      },
+      {
+        "source": "3133a3aa-e2f9-4877-b387-dbb6718123af.jpg",
+        "src": "/content/photography/photos/bd37d04f3b03d15a-1600.webp",
+        "thumb": "/content/photography/photos/bd37d04f3b03d15a-480.webp",
+        "full": "/content/photography/photos/bd37d04f3b03d15a-2400.webp",
+        "srcSet": "/content/photography/photos/bd37d04f3b03d15a-480.webp 480w, /content/photography/photos/bd37d04f3b03d15a-960.webp 960w, /content/photography/photos/bd37d04f3b03d15a-1600.webp 1600w, /content/photography/photos/bd37d04f3b03d15a-2400.webp 2400w",
+        "width": 3506,
+        "height": 5261,
+        "caption": "",
+        "originalBytes": 8584455,
+        "displayBytes": 288122
+      }
+    ],
+    "cover": "/content/photography/photos/6c5c80d6f6b03349-1600.webp"
+  },
+  {
     "slug": "chengdu-night-01",
     "title": "重庆夜色",
     "date": "2025-11-23",
