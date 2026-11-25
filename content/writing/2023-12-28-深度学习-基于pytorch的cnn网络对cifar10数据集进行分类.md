@@ -5,6 +5,7 @@ lang: zh
 summary:
 slug: "【深度学习】基于Pytorch的CNN网络对CIFAR10数据集进行分类"
 tags: ["文稿", "记录"]
+draft: false
 ---
 
 一、配置环境

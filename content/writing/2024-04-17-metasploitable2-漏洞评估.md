@@ -5,6 +5,7 @@ lang: zh
 summary: metasploitable2-漏洞评估
 slug: "Metasploitable2 漏洞评估"
 tags: ["文稿", "记录"]
+draft: false
 ---
 
 ## 一、任务

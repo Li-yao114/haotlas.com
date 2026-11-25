@@ -88,7 +88,7 @@ async function processPhoto(source, { caption = '', showLocation = false } = {})
 }
 
 function galleryImages(data, body) {
-  if (Array.isArray(data.images)) return data.images.map(image => typeof image === 'string' ? { src: image } : image);
+  if (Array.isArray(data.images) && data.images.length) return data.images.map(image => typeof image === 'string' ? { src: image } : image);
   return [...body.matchAll(/!\[([^\]]*)\]\((?:<([^>]+)>|([^\s)]+))(?:\s+"[^"]*")?\)/g)]
     .map(match => ({ src: match[2] || match[3], caption: match[1] }));
 }
@@ -182,7 +182,7 @@ async function buildCollection() {
     await writeJson(path.join(STAGING, 'writing/index.json'), writing);
     await writeJson(path.join(STAGING, 'photography/index.json'), photography);
     await writeJson(path.join(STAGING, 'search.json'), search.map(({ images, ...entry }) => entry));
-    await writeJson(path.join(ROOT, 'docs/content-report.json'), report);
+    await writeJson(path.join(ROOT, '.cache/content-report.json'), report);
     // Replace only after the complete collection passes validation.
     const previous = `${OUTPUT}-previous`;
     await rm(previous, { recursive: true, force: true });

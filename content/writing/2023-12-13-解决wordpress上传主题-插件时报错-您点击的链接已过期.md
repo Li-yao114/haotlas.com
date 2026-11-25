@@ -5,6 +5,7 @@ lang: zh
 summary: 解决wordpress上传主题-插件时报错：您点击的链接已过期
 slug: "解决wordpress上传主题/插件时报错：您点击的链接已过期，请重试。"
 tags: ["文稿", "记录"]
+draft: false
 ---
 
 参考相关链接：

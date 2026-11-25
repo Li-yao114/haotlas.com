@@ -5,6 +5,7 @@ lang: zh
 summary: 
 slug: "seed-labs-environment-variable-and-set-uid-program-lab"
 tags: ["文稿", "软件安全测试实验"]
+draft: false
 ---
 
 相关链接：

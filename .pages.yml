@@ -1,0 +1,146 @@
+media:
+  - name: writing_images
+    label: 文稿插图
+    input: content/writing/assets
+    output: /content/writing/assets
+    extensions: [jpg, jpeg, png, webp, avif, gif]
+    rename: random
+  - name: photography_images
+    label: 摄影照片
+    input: content/photography/photos
+    output: /content/photography/photos
+    extensions: [jpg, jpeg, png, webp, avif, tiff, tif]
+    rename: random
+content:
+  - name: writing
+    label: 文稿
+    type: collection
+    path: content/writing
+    format: yaml-frontmatter
+    subfolders: false
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    operations:
+      rename: false
+    view:
+      primary: title
+      fields: [title, date, draft]
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 日期
+        type: date
+        required: true
+        options:
+          format: yyyy-MM-dd
+          time: false
+      - name: draft
+        label: 暂不在网站展示
+        type: boolean
+        default: true
+        description: 保存会同步到公开 GitHub 仓库；此选项只控制网站是否显示。
+      - name: summary
+        label: 摘要
+        type: text
+        description: 可留空，网站会从正文生成。
+      - name: tags
+        label: 标签
+        type: string
+        list: true
+      - name: slug
+        label: 文章地址
+        type: string
+        description: 新文章可留空；已有文章请保持原值，避免链接变化。
+      - name: body
+        label: 正文
+        type: rich-text
+        required: true
+        options:
+          format: markdown
+          switcher: true
+          media: writing_images
+          extensions: [jpg, jpeg, png, webp, avif, gif]
+          rename: random
+  - name: photography
+    label: 摄影手记
+    type: collection
+    path: content/photography
+    format: yaml-frontmatter
+    subfolders: false
+    filename: "{year}-{month}-{day}-{hour}{minute}{second}.md"
+    operations:
+      rename: false
+    view:
+      primary: title
+      fields: [title, date, draft]
+      sort: [date, title]
+      default:
+        sort: date
+        order: desc
+    fields:
+      - name: title
+        label: 标题
+        type: string
+        required: true
+      - name: date
+        label: 日期
+        type: date
+        required: true
+        description: 照片有拍摄日期时，网站优先使用照片日期。
+        options:
+          format: yyyy-MM-dd
+          time: false
+      - name: draft
+        label: 暂不在网站展示
+        type: boolean
+        default: true
+        description: 保存会同步到公开 GitHub 仓库；此选项只控制网站是否显示。
+      - name: summary
+        label: 简介
+        type: text
+      - name: images
+        label: 照片
+        type: image
+        required: true
+        options:
+          media: photography_images
+          multiple: true
+          unique: true
+          rename: random
+      - name: cover
+        label: 封面
+        type: image
+        description: 从这篇手记的照片中选择；留空使用第一张。
+        options:
+          media: photography_images
+      - name: body
+        label: 照片之外
+        type: rich-text
+        options:
+          format: markdown
+          switcher: true
+          media: false
+      - name: slug
+        label: 手记地址
+        type: string
+        description: 新手记可留空；已有手记请保持原值。
+      - name: showLocation
+        label: 在网站展示照片坐标
+        type: boolean
+        default: false
+        description: 默认关闭。原始照片本身仍会保存到公开仓库。
+settings:
+  content:
+    merge: true
+  commit:
+    templates:
+      create: "Add {filename}"
+      update: "Update {filename}"
+      delete: "Delete {filename}"
+      rename: "Rename {oldFilename} to {newFilename}"
