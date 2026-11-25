@@ -1,10 +1,10 @@
 {
   "home": {
     "title": "我的一方天地。",
-    "description": "写下所想，留住所见，也留一点位置给新鲜事。",
+    "description": "青山落日，秋月春风",
     "profileName": "Haotlas",
-    "profileBio": "学习、阅读、摄影。\n慢慢积累自己的记录。",
-    "artworkCaption": "一些偏爱的画面",
+    "profileBio": "路遥知马力",
+    "artworkCaption": "",
     "photographyIntro": "镜头里的片刻，\n还有照片之外的感受。",
     "recordsIntro": "吃过的味道，走过的地方，\n以及值得留下的时刻。"
   },
@@ -18,7 +18,9 @@
   },
   "about": {
     "title": "关于 Haotlas",
-    "body": "这里存放文稿、摄影与长期记录。\n\n有技术学习时留下的实验笔记，也有读书后的想法，以及镜头里的城市。"
+    "body": "我是神"
   },
-  "footer": { "copyright": "Designed By Haotlas" }
+  "footer": {
+    "copyright": "Designed By Haotlas"
+  }
 }
