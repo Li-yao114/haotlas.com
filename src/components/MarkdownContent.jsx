@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 
@@ -11,6 +11,7 @@ function ArticleImage({ src, alt, title }) {
 const components = { img: ArticleImage };
 const plugins = [remarkGfm];
 
-export default function MarkdownContent({ children }) {
-  return <ReactMarkdown remarkPlugins={plugins} components={components}>{children}</ReactMarkdown>;
+export default function MarkdownContent({ children, resolveImage }) {
+  const renderers = useMemo(() => resolveImage ? { ...components, img: props => <ArticleImage {...props} src={resolveImage(props.src)} /> } : components, [resolveImage]);
+  return <ReactMarkdown remarkPlugins={plugins} components={renderers}>{children}</ReactMarkdown>;
 }

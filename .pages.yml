@@ -286,8 +286,94 @@ content:
         description: 从本条记录的照片中选择，留空使用第一张。
         options:
           media: record_images
+      - name: foodRating
+        label: 美食分项评分（自动计算总评）
+        type: object
+        description: 口味占 60%，服务态度和环境各占 20%；三项评完后自动计算，四舍五入到半星。其他类型不填。
+        fields:
+          - name: taste
+            label: 口味 · 60%
+            type: select
+            options:
+              values:
+                - name: 'unrated'
+                  label: 暂不评分
+                - name: '0.5'
+                  label: 0.5 / 5 星
+                - name: '1.0'
+                  label: 1.0 / 5 星
+                - name: '1.5'
+                  label: 1.5 / 5 星
+                - name: '2.0'
+                  label: 2.0 / 5 星
+                - name: '2.5'
+                  label: 2.5 / 5 星
+                - name: '3.0'
+                  label: 3.0 / 5 星
+                - name: '3.5'
+                  label: 3.5 / 5 星
+                - name: '4.0'
+                  label: 4.0 / 5 星
+                - name: '4.5'
+                  label: 4.5 / 5 星
+                - name: '5.0'
+                  label: 5.0 / 5 星
+          - name: service
+            label: 服务态度 · 20%
+            type: select
+            options:
+              values:
+                - name: 'unrated'
+                  label: 暂不评分
+                - name: '0.5'
+                  label: 0.5 / 5 星
+                - name: '1.0'
+                  label: 1.0 / 5 星
+                - name: '1.5'
+                  label: 1.5 / 5 星
+                - name: '2.0'
+                  label: 2.0 / 5 星
+                - name: '2.5'
+                  label: 2.5 / 5 星
+                - name: '3.0'
+                  label: 3.0 / 5 星
+                - name: '3.5'
+                  label: 3.5 / 5 星
+                - name: '4.0'
+                  label: 4.0 / 5 星
+                - name: '4.5'
+                  label: 4.5 / 5 星
+                - name: '5.0'
+                  label: 5.0 / 5 星
+          - name: environment
+            label: 环境 · 20%
+            type: select
+            options:
+              values:
+                - name: 'unrated'
+                  label: 暂不评分
+                - name: '0.5'
+                  label: 0.5 / 5 星
+                - name: '1.0'
+                  label: 1.0 / 5 星
+                - name: '1.5'
+                  label: 1.5 / 5 星
+                - name: '2.0'
+                  label: 2.0 / 5 星
+                - name: '2.5'
+                  label: 2.5 / 5 星
+                - name: '3.0'
+                  label: 3.0 / 5 星
+                - name: '3.5'
+                  label: 3.5 / 5 星
+                - name: '4.0'
+                  label: 4.0 / 5 星
+                - name: '4.5'
+                  label: 4.5 / 5 星
+                - name: '5.0'
+                  label: 5.0 / 5 星
       - name: rating
-        label: 我的总评
+        label: 其他类型总评（非自动评分）
         type: select
         default: unrated
         options:
@@ -312,16 +398,16 @@ content:
               label: 4.5 / 5 星
             - name: '5.0'
               label: 5.0 / 5 星
-        description: 独立填写的个人感受，满分 5 星，支持半星。
+        description: 美食填写上方三项后自动生成总评，此字段不覆盖自动计算结果。地点、事件可独立填写，满分 5 星。
       - name: dimensions
-        label: 分项评分
+        label: 其他类型分项评分
         type: object
         list:
           max: 8
           collapsible:
             collapsed: false
             summary: '{name}'
-        description: 按内容选择相关维度；不适用的维度留空，不计作零分。
+        description: 地点、事件可选择相关维度；美食使用上方固定三项。留空不会计作零分。
         fields:
           - name: name
             label: 维度

@@ -8,3 +8,16 @@
 .location-copy button { min-height: 46px; background: var(--fg); color: var(--bg); border-radius: 4px; padding: 0 20px; }.location-copy button:disabled { opacity: .45; cursor: default; }
 .location-editor .location-helper { font-size: 14px; margin-top: 14px; margin-bottom: 8px; }
 @media(max-width:540px) { .location-copy { flex-wrap: wrap; }.location-copy label { width: 100%; }.location-copy button { padding-inline: 15px; }.location-editor > header { margin-bottom: 25px; } }
+.place-search { margin: 20px 0 24px; }
+.place-search form { display: grid; grid-template-columns: 130px minmax(0,1fr) auto; align-items: end; gap: 12px; }
+.place-search label { display: grid; gap: 8px; font-size: 14px; }
+.place-search input { min-width: 0; width: 100%; padding: 12px; border: 1px solid var(--line); background: var(--bg); color: var(--fg); border-radius: 4px; }
+.place-search form button { min-height: 48px; padding: 0 18px; background: var(--fg); color: var(--bg); border-radius: 4px; }
+.place-search button:disabled { opacity: .5; cursor: default; }
+.place-search-status,.place-search-credit { color: var(--muted); font-size: 14px; margin: 12px 0 0; }
+.place-search-credit { font-size: 12px; }
+.place-search ul { list-style: none; padding: 0; margin: 15px 0; border: 1px solid var(--line); border-radius: 4px; }
+.place-search li + li { border-top: 1px solid var(--line); }
+.place-search li button { text-align: left; display: grid; width: 100%; gap: 5px; padding: 15px; }
+.place-search li span { color: var(--muted); font-size: 14px; }
+@media(max-width:540px){.place-search form { grid-template-columns: 90px minmax(0,1fr); }.place-search form button { grid-column: 1 / -1; }.record-place-card { max-width: 100%; } }

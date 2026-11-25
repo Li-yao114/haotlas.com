@@ -70,3 +70,26 @@
 .records-map .maplibregl-ctrl-group { background: var(--bg); border: 1px solid var(--line); }
 :root[data-theme=dark] .records-map .maplibregl-ctrl-icon { filter: invert(1); }
 @media(max-width:650px) { .metadata-only .record-facts { grid-template-columns: 1fr; } }
+.record-dimensions dt small { display: inline-block; margin-left: 9px; color: var(--muted); font: 12px ui-monospace,monospace; }
+.record-place-card { border: 1px solid var(--line); border-radius: 5px; overflow: hidden; margin-top: 28px; }
+.record-place-map .records-map { border: 0; border-bottom: 1px solid var(--line); border-radius: 0; }
+.record-place-map .records-map-canvas-wrap { height: 250px; }
+.record-place-map .record-map-credit { font-size: 10px; padding: 5px 8px; }
+.record-place-info { padding: 20px; }
+.record-place-info h2 { font-size: 17px; margin-bottom: 9px; }
+.record-place-info p { color: var(--muted); font-size: 14px; }
+.record-place-actions { display: flex; align-items: center; gap: 18px; margin-top: 14px; flex-wrap: wrap; }
+.record-place-actions button,.record-place-actions a { display: inline-flex; align-items: center; min-height: 44px; font-size: 14px; border-bottom: 1px solid var(--line); padding: 0; }
+.record-place-info textarea { width: 100%; min-height: 80px; margin-top: 12px; color: var(--fg); background: var(--bg); border: 1px solid var(--line); font: inherit; padding: 10px; }
+.record-copy-status { display: block; font-size: 12px; color: var(--muted); margin-top: 8px; }
+.record-copy-status:empty { display: none; }
+.record-facts > .record-place-card { padding-top: 0; }
+.metadata-only .record-facts > .record-place-card { border: 1px solid var(--line); padding: 0; margin: 0; }
+@media(max-width:800px) { .record-place-card { max-width: 440px; }.record-place-map .records-map-canvas-wrap { height: 280px; } }
+
+.record-detail .record-reading-layout { padding-top: 0; align-items: start; }
+.record-detail .hero-photo img { max-height: min(58svh, 520px); }
+.record-detail .record-story > .photo-viewer { margin-bottom: 35px; }
+.record-detail .record-facts { position: sticky; top: 30px; }
+.record-image-caption { color: var(--muted); font-size: 13px; }
+@media(max-width:800px) { .record-detail .record-facts { position: static; }.record-detail .hero-photo img { max-height: min(60svh, 480px); } }

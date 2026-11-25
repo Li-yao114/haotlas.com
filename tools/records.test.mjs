@@ -1,6 +1,6 @@
 import test from 'node:test';
 import assert from 'node:assert/strict';
-import { parsePoint, parseRating, normalizeRecord } from '../src/lib/records.js';
+import { parsePoint, parseRating, normalizeRecord, foodRating } from '../src/lib/records.js';
 import { unpackDocument } from './import-document.mjs';
 import { zipSync, strToU8 } from 'fflate';
 
@@ -24,4 +24,16 @@ test('拒绝多篇文稿、越界路径以及没有 Markdown 的导入包',()=>{
   assert.throws(()=>unpackDocument(zipSync({'a.md':strToU8('A'),'b.md':strToU8('B')})));
   assert.throws(()=>unpackDocument(zipSync({'../a.md':strToU8('A')})));
   assert.throws(()=>unpackDocument(zipSync({'a.txt':strToU8('A')})));
+});
+
+
+test('美食按口味60%、态度20%、环境20%加权并取半星，缺项时不猜测',()=>{
+  assert.equal(foodRating({taste:5,service:3,environment:4}).rating,4.5);
+  assert.equal(foodRating({taste:5,service:3,environment:4}).raw,4.4);
+  assert.equal(foodRating({taste:0.5,service:0.5,environment:0.5}).rating,0.5);
+  assert.equal(foodRating({taste:5,service:5}).rating,null);
+  const record=normalizeRecord({category:'food',foodRating:{taste:4.5,service:3,environment:5},rating:1});
+  assert.equal(record.rating,4.5);assert.equal(record.ratingMode,'weighted');assert.equal(record.dimensions.length,3);
+  assert.equal(normalizeRecord({category:'place',rating:3}).rating,3);
+  assert.throws(()=>normalizeRecord({category:'constructor'}));
 });

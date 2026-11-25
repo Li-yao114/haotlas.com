@@ -36,6 +36,7 @@ function makePost(data, body, relative) {
   const title = String(data.title || path.basename(relative, '.md')).trim();
   const slug = String(data.slug || path.basename(relative, '.md').replace(/^\d{4}-\d{2}-\d{2}-/, '')).trim();
   if (!title || !slug) throw new Error(`标题或 slug 为空：${relative}`);
+  if (slug.split(/[\\/]/).some(part => ['.', '..'].includes(part)) || slug.includes('\0')) throw new Error(`内容地址包含无效路径：${relative}`);
   const plain = plainText(body);
   return {
     slug, title, date: dateString(data.date, path.basename(relative).slice(0, 10)),

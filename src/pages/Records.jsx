@@ -3,6 +3,7 @@ import { site } from '../lib/site';
 import { RECORD_CATEGORIES } from '../lib/records';
 import { hrefFor, displayDate } from '../lib/navigation';
 import RecordsMap from '../components/RecordsMap';
+import RecordLocation from '../components/RecordLocation';
 import StarRating from '../components/StarRating';
 import PhotoStage from '../components/PhotoStage';
 import MarkdownContent from '../components/MarkdownContent';
@@ -12,14 +13,9 @@ import useMarkdown from '../hooks/useMarkdown';
 
 function RecordDetail({ record, records, initialBody }) {
   const { body, loading, error } = useMarkdown(record.file, initialBody);
-  const points = useMemo(() => [record], [record]);
-  const location = [record.city, record.address].filter(Boolean).join(' · ');
-  const externalMap = record.navigationUrl || (record.point ? `https://www.openstreetmap.org/?mlat=${record.point.lat}&mlon=${record.point.lng}#map=17/${record.point.lat}/${record.point.lng}` : null);
   const next = records[records.indexOf(record) + 1];
   return <article className="record-detail"><a className="reading-back" href={hrefFor('records')}><Icon name="left" />全部记录</a><header className="record-header"><div><span className="record-category">{RECORD_CATEGORIES[record.category]}</span><h1>{record.title}</h1><p>{record.summary}</p><div className="record-byline"><time dateTime={record.date.slice(0, 10)}>{displayDate(record.date)}</time>{record.placeName && <span>{record.placeName}</span>}{record.cost != null && <span>{record.category === 'food' ? '人均' : '花费'} ¥{record.cost}</span>}</div></div><div className="record-overall"><span>我的总评</span><StarRating value={record.rating} /></div></header>
-    {!!record.images?.length && <PhotoStage album={record} />}
-    <div className={`record-reading-layout${!loading && !body.trim() && !record.recommended ? ' metadata-only' : ''}`}><section className="record-story">{loading ? <p role="status">正在加载记录…</p> : error ? <p role="alert">正文暂时无法加载，请刷新重试。</p> : body.trim() && <div className="article-body"><MarkdownContent>{body}</MarkdownContent></div>}{record.recommended && <div className="record-highlights"><h2>推荐与亮点</h2><p>{record.recommended}</p></div>}</section><aside className="record-facts">{!!record.dimensions.length && <section><h2>分项体验</h2><dl className="record-dimensions">{record.dimensions.map(dimension => <div key={dimension.name}><dt>{dimension.name}</dt><dd><StarRating value={dimension.score} compact /></dd></div>)}</dl><p className="rating-context">总评独立填写，分项用于记录不同感受。</p></section>}{(record.placeName || location || externalMap) && <section><h2>这次的位置</h2>{record.placeName && <p>{record.placeName}</p>}{location && <p className="muted">{location}</p>}{externalMap && <a className="text-link" href={externalMap} target="_blank" rel="noreferrer">打开地图</a>}</section>}</aside></div>
-    {record.point && <section className="record-location"><h2>留在地图上</h2><RecordsMap items={points} /></section>}
+    <div className={`record-reading-layout${!loading && !body.trim() && !record.recommended && !record.images?.length ? ' metadata-only' : ''}`}><section className="record-story">{!!record.images?.length && <PhotoStage album={record} showMetadata={false} />}{loading ? <p role="status">正在加载记录…</p> : error ? <p role="alert">正文暂时无法加载，请刷新重试。</p> : body.trim() && <div className="article-body"><MarkdownContent>{body}</MarkdownContent></div>}{record.recommended && <div className="record-highlights"><h2>推荐与亮点</h2><p>{record.recommended}</p></div>}</section><aside className="record-facts">{!!record.dimensions.length && <section><h2>分项体验</h2><dl className="record-dimensions">{record.dimensions.map(dimension => <div key={dimension.name}><dt>{dimension.name}{dimension.weight && <small>{Math.round(dimension.weight * 100)}%</small>}</dt><dd><StarRating value={dimension.score} compact /></dd></div>)}</dl><p className="rating-context">{record.ratingMode === 'weighted' ? '口味 60% · 服务态度 20% · 环境 20%，综合评分四舍五入至半星。' : '总评独立填写，分项用于记录不同感受。'}</p></section>}<RecordLocation record={record} /></aside></div>
     {next && <nav className="reading-next" aria-label="继续阅读"><span className="muted">下一条记录</span><a href={hrefFor('records', next.slug)}>{next.title}<Icon name="right" /></a></nav>}
   </article>;
 }

@@ -5,7 +5,7 @@ import 'maplibre-gl/dist/maplibre-gl.css';
 import { hrefFor } from '../lib/navigation';
 setWorkerUrl(workerUrl);
 const style = theme => `https://tiles.openfreemap.org/styles/${theme === 'dark' ? 'dark' : 'positron'}`;
-export default function RecordsMapCanvas({ items = [], theme, picker, onPointPick, pickedPoint, onStatus }) {
+export default function RecordsMapCanvas({ items = [], theme, picker, onPointPick, pickedPoint, focusPoint, onStatus }) {
   const host = useRef(null), map = useRef(null), markers = useRef([]), pointMarker = useRef(null), pick = useRef(onPointPick), themeRef = useRef(theme);
   pick.current = onPointPick;
   useEffect(() => {
@@ -35,5 +35,6 @@ export default function RecordsMapCanvas({ items = [], theme, picker, onPointPic
     if (points.length) { const bounds = new LngLatBounds(); points.forEach(item => bounds.extend([item.point.lng, item.point.lat])); map.current.fitBounds(bounds, { padding: 65, maxZoom: points.length === 1 ? 14 : 13, duration: 0 }); }
   }, [items]);
   useEffect(() => { if (!map.current || !pickedPoint) return; pointMarker.current?.remove(); pointMarker.current = new Marker({ color: '#6cad92' }).setLngLat([pickedPoint.lng, pickedPoint.lat]).addTo(map.current); }, [pickedPoint]);
+  useEffect(() => { if (map.current && focusPoint) map.current.jumpTo({ center: [focusPoint.lng, focusPoint.lat], zoom: 15 }); }, [focusPoint]);
   return <div ref={host} className="records-map-surface" />;
 }
